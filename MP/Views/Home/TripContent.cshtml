@@ -1,0 +1,34 @@
+﻿@model MP.Model.Models.Trip
+@{
+    ViewBag.Title = "TripContent";
+}
+<div class="tabbable">
+    <ul class="nav nav-tabs nav-justified">
+        <li class="active"><a href="#passenger" data-toggle="tab">Hành Khách</a></li>
+        <li><a href="#item" data-toggle="tab">Hàng Hóa</a></li>
+    </ul>
+    <div class="tab-content col-md-12">
+        <div class="tab-pane active" id="passenger">
+            <div class="row">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-default">Hôm nay</button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button>
+                        </div>
+                        <input type="text" class="datepicker" value="@String.Format("{0:dd/MM/yyyy}", DateTime.Now)" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-6">Tài xế</div>
+                <div class="col-md-6">1</div>
+            </div>
+        </div>
+        <div class="tab-pane" id="item">
+            @Model.TripName 1
+        </div>
+    </div>
+</div>
+

@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
+using MP.Data.Repository;
+using MP.Model.Models;
 
 namespace MP.Controllers
 {
     public class HomeController : Controller
     {
+        private ITripRepository tripRepository { get; set; }
+        public HomeController(ITripRepository tripRepository)
+        {
+            this.tripRepository = tripRepository;
+        }
         public ActionResult Index()
         {
             return View();
@@ -25,6 +28,12 @@ namespace MP.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult TripContent(TripName tripName)
+        {
+            var trip = new Trip { TripName = tripName };
+            return View(trip);
         }
     }
 }
