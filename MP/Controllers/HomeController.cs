@@ -1,15 +1,16 @@
 ﻿using System.Web.Mvc;
 using MP.Data.Repository;
+using MP.Data.Service;
 using MP.Model.Models;
 
 namespace MP.Controllers
 {
     public class HomeController : Controller
     {
-        private ITripRepository tripRepository { get; set; }
-        public HomeController(ITripRepository tripRepository)
+        private ITripService tripService { get; set; }
+        public HomeController(ITripService tripService)
         {
-            this.tripRepository = tripRepository;
+            this.tripService = tripService;
         }
         public ActionResult Index()
         {

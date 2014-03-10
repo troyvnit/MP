@@ -8,6 +8,7 @@ using Autofac;
 using Autofac.Integration.Mvc;
 using MP.Data.Infrastructure;
 using MP.Data.Repository;
+using MP.Data.Service;
 
 namespace MP.App_Start
 {
@@ -25,7 +26,9 @@ namespace MP.App_Start
             builder.RegisterType<UnitOfWork>().As<IUnitOfWork>().InstancePerHttpRequest();
             builder.RegisterType<DatabaseFactory>().As<IDatabaseFactory>().InstancePerHttpRequest();
             builder.RegisterAssemblyTypes(typeof (ITripRepository).Assembly)
-                .Where(a => a.Name.EndsWith("Repository"));
+                .Where(a => a.Name.EndsWith("Repository")).AsImplementedInterfaces().InstancePerHttpRequest();
+            builder.RegisterAssemblyTypes(typeof(ITripService).Assembly)
+                .Where(a => a.Name.EndsWith("Service")).AsImplementedInterfaces().InstancePerHttpRequest();
 
             builder.RegisterFilterProvider();
             var container = builder.Build();
