@@ -40,3 +40,22 @@ input[type="checkbox"].input-validation-error {
 .validation-summary-valid {
     display: none;
 }
+
+.seat-number{
+    text-decoration: none;
+    text-align: right;
+    height: 150px;
+}
+
+.seat-number:hover{
+    text-decoration: none;
+}
+
+.seat-number span{
+    font-size: 36px;
+    display: inline-block;
+}
+
+.padding-5px {
+    padding: 5px
+}
