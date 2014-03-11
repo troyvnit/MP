@@ -1,4 +1,5 @@
-﻿@model MP.Model.Models.Trip
+﻿@using MP.Model.Models
+@model MP.Model.Models.Trip
 @{
     ViewBag.Title = "TripContent";
 }
@@ -18,12 +19,88 @@
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button>
                         </div>
                         <input type="text" class="datepicker" value="@String.Format("{0:dd/MM/yyyy}", DateTime.Now)" />
+                        <div class="btn-group">
+                            @if (Model.TripName == TripName.MA)
+                            {
+                                <button type="button" departuretime="@DepartureTime.C300" class="btn btn-default departure-time-btn">3:00</button>
+                                <button type="button" departuretime="@DepartureTime.C530" class="btn btn-default departure-time-btn">5:30</button>
+                                <button type="button" departuretime="@DepartureTime.C700" class="btn btn-default departure-time-btn">7:00</button>
+                                <button type="button" departuretime="@DepartureTime.C900" class="btn btn-default departure-time-btn">9:00</button>
+                                <button type="button" departuretime="@DepartureTime.C1130" class="btn btn-default departure-time-btn">11:30</button>
+                                <button type="button" departuretime="@DepartureTime.C1330" class="btn btn-default departure-time-btn">13:30</button>
+                                <button type="button" departuretime="@DepartureTime.C1500" class="btn btn-default departure-time-btn">15:00</button>
+                            }
+                            else
+                            {
+                                <button type="button" departuretime="@DepartureTime.C700" class="btn btn-default departure-time-btn">7:00</button>
+                                <button type="button" departuretime="@DepartureTime.C830" class="btn btn-default departure-time-btn">8:30</button>
+                                <button type="button" departuretime="@DepartureTime.C1030" class="btn btn-default departure-time-btn">10:30</button>
+                                <button type="button" departuretime="@DepartureTime.C1230" class="btn btn-default departure-time-btn">12:30</button>
+                                <button type="button" departuretime="@DepartureTime.C1400" class="btn btn-default departure-time-btn">14:00</button>
+                                <button type="button" departuretime="@DepartureTime.C1530" class="btn btn-default departure-time-btn">15:30</button>
+                                <button type="button" departuretime="@DepartureTime.C1700" class="btn btn-default departure-time-btn">17:00</button>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6">Tài xế</div>
-                <div class="col-md-6">1</div>
+                <div class="col-md-6 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-danger">Tài xế</span>
+                    </a>
+                </div>
+                <div class="col-md-6 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">1</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">2</span>
+                    </a>
+                </div>
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">3</span>
+                    </a>
+                </div>
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">4</span>
+                    </a>
+                </div>
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">5</span>
+                    </a>
+                </div>
+            </div>
+            
+            <div class="row">
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">6</span>
+                    </a>
+                </div>
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">7</span>
+                    </a>
+                </div>
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-success">8</span>
+                    </a>
+                </div>
+                <div class="col-md-3 padding-5px">
+                    <a href="#" class="thumbnail seat-number">
+                        <span class="label label-warning">Cửa</span>
+                    </a>
+                </div>
             </div>
         </div>
         <div class="tab-pane" id="item">
