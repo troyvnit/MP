@@ -18,9 +18,17 @@ namespace MP
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
+                      "~/Scripts/jqBootstrapValidation.js",
                       "~/Scripts/kendo.all.min.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/main.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/jspdf").Include(
+                      "~/Scripts/jspdf.js",
+                      "~/Scripts/jspdf.plugin.standard_fonts_metrics.js",
+                      "~/Scripts/jspdf.plugin.split_text_to_size.js",
+                      "~/Scripts/jspdf.plugin.from_html.js",
+                      "~/Scripts/html2canvas.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",

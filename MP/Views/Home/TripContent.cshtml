@@ -18,86 +18,123 @@
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
                             <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button>
                         </div>
-                        <input type="text" class="datepicker" value="@String.Format("{0:dd/MM/yyyy}", DateTime.Now)" />
-                        <div class="btn-group">
+                        <input type="text" id="departureDateDatePicker" class="datepicker" value="@String.Format("{0:dd/MM/yyyy}", DateTime.Now)" />
+                        <div class="btn-group" data-toggle="buttons" id="departureTimeButtonGroup">
                             @if (Model.TripName == TripName.MA)
                             {
-                                <button type="button" departuretime="@DepartureTime.C300" class="btn btn-default departure-time-btn">3:00</button>
-                                <button type="button" departuretime="@DepartureTime.C530" class="btn btn-default departure-time-btn">5:30</button>
-                                <button type="button" departuretime="@DepartureTime.C700" class="btn btn-default departure-time-btn">7:00</button>
-                                <button type="button" departuretime="@DepartureTime.C900" class="btn btn-default departure-time-btn">9:00</button>
-                                <button type="button" departuretime="@DepartureTime.C1130" class="btn btn-default departure-time-btn">11:30</button>
-                                <button type="button" departuretime="@DepartureTime.C1330" class="btn btn-default departure-time-btn">13:30</button>
-                                <button type="button" departuretime="@DepartureTime.C1500" class="btn btn-default departure-time-btn">15:00</button>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C300"> 3:00
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C530"> 5:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C700"> 7:00
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C900"> 9:00
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1130"> 11:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1330"> 13:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1500"> 15:00
+                                </label>
                             }
                             else
                             {
-                                <button type="button" departuretime="@DepartureTime.C700" class="btn btn-default departure-time-btn">7:00</button>
-                                <button type="button" departuretime="@DepartureTime.C830" class="btn btn-default departure-time-btn">8:30</button>
-                                <button type="button" departuretime="@DepartureTime.C1030" class="btn btn-default departure-time-btn">10:30</button>
-                                <button type="button" departuretime="@DepartureTime.C1230" class="btn btn-default departure-time-btn">12:30</button>
-                                <button type="button" departuretime="@DepartureTime.C1400" class="btn btn-default departure-time-btn">14:00</button>
-                                <button type="button" departuretime="@DepartureTime.C1530" class="btn btn-default departure-time-btn">15:30</button>
-                                <button type="button" departuretime="@DepartureTime.C1700" class="btn btn-default departure-time-btn">17:00</button>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C700"> 7:00
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C830"> 8:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1030"> 10:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1230"> 12:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1400"> 14:00
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1530"> 15:30
+                                </label>
+                                <label class="btn btn-primary">
+                                    <input type="radio" name="departuretimes" value="@DepartureTime.C1700"> 17:00
+                                </label>
                             }
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-md-6 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
-                        <span class="label label-danger">Tài xế</span>
-                    </a>
+                <div class="col-md-12 padding-5px" id="departureInfoLabel">
                 </div>
-                <div class="col-md-6 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
-                        <span class="label label-success">1</span>
-                    </a>
+                    <div class="col-md-6 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="0" data-target="#tripContentModal">
+                            <span class="label label-danger">Tài xế</span>
+                        </a>
+                    </div>
+                    <div class="col-md-6 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="1" data-target="#tripContentModal">
+                            <span class="label label-success">1</span>
+                        </a>
+                    </div>
                 </div>
-            </div>
 
-            <div class="row">
+            <div class="row" id="testcase">
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="2" data-target="#tripContentModal">
                         <span class="label label-success">2</span>
+                        <span class="seat-number-2"></span>
                     </a>
                 </div>
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="3" data-target="#tripContentModal">
                         <span class="label label-success">3</span>
+                        <span class="seat-number-3"></span>
                     </a>
                 </div>
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="4" data-target="#tripContentModal">
                         <span class="label label-success">4</span>
+                        <span class="seat-number-4"></span>
                     </a>
                 </div>
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="5" data-target="#tripContentModal">
                         <span class="label label-success">5</span>
+                        <span class="seat-number-5"></span>
                     </a>
                 </div>
             </div>
             
             <div class="row">
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="6" data-target="#tripContentModal">
                         <span class="label label-success">6</span>
+                        <span class="seat-number-6"></span>
                     </a>
                 </div>
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="7" data-target="#tripContentModal">
                         <span class="label label-success">7</span>
+                        <span class="seat-number-7"></span>
                     </a>
                 </div>
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="8" data-target="#tripContentModal">
                         <span class="label label-success">8</span>
+                        <span class="seat-number-8"></span>
                     </a>
                 </div>
                 <div class="col-md-3 padding-5px">
-                    <a href="#" class="thumbnail seat-number">
+                    <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="0" data-target="#tripContentModal">
                         <span class="label label-warning">Cửa</span>
                     </a>
                 </div>
@@ -109,3 +146,71 @@
     </div>
 </div>
 
+<!-- Modal -->
+<div class="modal fade" id="tripContentModal" tabindex="-1" role="dialog" aria-labelledby="tripContentLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="tripContentLabel">Cập nhật hành khách</h4>
+            </div>
+            <div class="modal-body">
+                <form class="form-horizontal" role="form">
+                    <div class="form-group">
+                        <label for="DepartureDate" class="col-sm-3 control-label">Ngày</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="DepartureDate" name="DepartureDate" placeholder="Ngày" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="DepartureTime" class="col-sm-3 control-label">Chuyến</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="DepartureTime" name="DepartureTime" placeholder="Giờ" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="SeatNumber" class="col-sm-3 control-label">Số ghế</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="SeatNumber" name="SeatNumber" placeholder="Số ghế" disabled>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Name" class="col-sm-3 control-label">Tên hành khách</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Tên hành khách" required aria-invalid="false" data-validation-required-message="Vui lòng nhập tên hành khách">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Phone" class="col-sm-3 control-label">Điện thoại</label>
+                        <div class="col-sm-9">
+                            <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Điện thoại" required data-validation-required-message="Vui lòng nhập số điện thoại">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Address" class="col-sm-3 control-label">Địa chỉ đón</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="Address" name="Address" placeholder="Địa chỉ đón"></textarea>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="TicketQuantity" class="col-sm-3 control-label">Số lượng vé</label>
+                        <div class="col-sm-9">
+                            <input type="number" class="form-control" id="TicketQuantity" name="TicketQuantity" placeholder="Số lượng vé">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="Note" class="col-sm-3 control-label">Ghi chú</label>
+                        <div class="col-sm-9">
+                            <textarea class="form-control" id="Note" name="Note" placeholder="Ghi chú"></textarea>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="submitPassenger">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+<div id="bypassme"></div>

@@ -9,6 +9,7 @@ using Autofac.Integration.Mvc;
 using MP.Data.Infrastructure;
 using MP.Data.Repository;
 using MP.Data.Service;
+using MP.Mappers;
 
 namespace MP.App_Start
 {
@@ -17,6 +18,7 @@ namespace MP.App_Start
         public static void Run()
         {
             SetAutofacContainer();
+            AutoMapperConfiguration.Configure();
         }
 
         private static void SetAutofacContainer()

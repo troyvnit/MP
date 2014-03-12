@@ -43,17 +43,21 @@ input[type="checkbox"].input-validation-error {
 
 .seat-number{
     text-decoration: none;
-    text-align: right;
+    padding: 5px;
     height: 150px;
+    position: relative;
 }
 
 .seat-number:hover{
     text-decoration: none;
 }
 
-.seat-number span{
+.seat-number span:first-child{
     font-size: 36px;
     display: inline-block;
+    position: absolute;
+    top: 5px;
+    right: 5px;
 }
 
 .padding-5px {

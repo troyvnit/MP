@@ -1,16 +1,21 @@
-﻿using System.Web.Mvc;
+﻿using System.Linq;
+using System.Web.Mvc;
+using AutoMapper;
 using MP.Data.Repository;
 using MP.Data.Service;
 using MP.Model.Models;
+using MP.Models;
 
 namespace MP.Controllers
 {
     public class HomeController : Controller
     {
         private ITripService tripService { get; set; }
-        public HomeController(ITripService tripService)
+        private IPassengerService passengerService { get; set; }
+        public HomeController(ITripService tripService, IPassengerService passengerService)
         {
             this.tripService = tripService;
+            this.passengerService = passengerService;
         }
         public ActionResult Index()
         {
@@ -35,6 +40,23 @@ namespace MP.Controllers
         {
             var trip = new Trip { TripName = tripName };
             return View(trip);
+        }
+
+        public ActionResult GetPassenger(TripModel tripModel)
+        {
+            var passengers = passengerService.GetPassengers(tripModel).Select(Mapper.Map<Passenger, PassengerModel>);
+            return Json(passengers, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddOrUpdatePassenger(PassengerModel passengerModel, TripModel tripModel)
+        {
+            var passenger = Mapper.Map<PassengerModel, Passenger>(passengerModel);
+            var trip = tripService.AddOrUpdateTripFollowDepartureInfo(tripModel);
+            passenger.Trip = trip;
+            passenger.TripId = trip.Id;
+            passengerService.AddOrUpdatePassenger(passenger);
+            return Json(true, JsonRequestBehavior.AllowGet);
         }
     }
 }

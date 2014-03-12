@@ -8,11 +8,5 @@
         public string ReceiverName { get; set; }
         public string ReceiverPhone { get; set; }
         public string DeliveryAddress { get; set; }
-        public Town Town { get; set; }
-    }
-
-    public enum Town
-    {
-        MA, MQ, LB, MD
     }
 }

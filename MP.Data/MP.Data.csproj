@@ -30,11 +30,17 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.3.1.1\lib\net40\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
     <Reference Include="EntityFramework.SqlServer">
       <HintPath>..\packages\EntityFramework.6.0.2\lib\net45\EntityFramework.SqlServer.dll</HintPath>
+    </Reference>
+    <Reference Include="MP">
+      <HintPath>..\MP\Bin\MP.dll</HintPath>
     </Reference>
     <Reference Include="PagedList">
       <HintPath>..\packages\PagedList.1.17.0.0\lib\net40\PagedList.dll</HintPath>
@@ -60,9 +66,9 @@
     <Compile Include="Infrastructure\Page.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201403080357544_MP.cs" />
-    <Compile Include="Migrations\201403080357544_MP.Designer.cs">
-      <DependentUpon>201403080357544_MP.cs</DependentUpon>
+    <Compile Include="Migrations\201403120949180_MP.cs" />
+    <Compile Include="Migrations\201403120949180_MP.Designer.cs">
+      <DependentUpon>201403120949180_MP.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MPEntities.cs" />
@@ -70,6 +76,7 @@
     <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Repository\PassengerRepository.cs" />
     <Compile Include="Repository\TripRepository.cs" />
+    <Compile Include="Service\PassengerService.cs" />
     <Compile Include="Service\TripService.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -83,8 +90,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403080357544_MP.resx">
-      <DependentUpon>201403080357544_MP.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201403120949180_MP.resx">
+      <DependentUpon>201403120949180_MP.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

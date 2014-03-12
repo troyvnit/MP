@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MP.Model.Models;
 
-namespace MP.Model.Models
+namespace MP.Models
 {
-    public class Passenger : TransportingObject
+    public class PassengerModel
     {
         public string Name { get; set; }
         public string Phone { get; set; }
@@ -14,10 +10,5 @@ namespace MP.Model.Models
         public int TicketQuantity { get; set; }
         public string SeatNumber { get; set; }
         public Town Town { get; set; }
-    }
-
-    public enum Town
-    {
-        MA, MQ, LB, MD
     }
 }

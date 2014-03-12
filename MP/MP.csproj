@@ -121,7 +121,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\BootStrapper.cs" />
@@ -132,6 +131,10 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Mappers\AutoMapperConfiguration.cs" />
+    <Compile Include="Models\PassengerModel.cs" />
+    <Compile Include="Models\TransportingObjectModel.cs" />
+    <Compile Include="Models\TripModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -150,8 +153,14 @@
     <Content Include="Content\Bootstrap\sprite.png" />
     <Content Include="Content\Bootstrap\sprite_2x.png" />
     <None Include="Scripts\jquery-2.1.0-vsdoc.js" />
+    <Content Include="Scripts\html2canvas.js" />
+    <Content Include="Scripts\jqBootstrapValidation.js" />
     <Content Include="Scripts\jquery-2.1.0.js" />
     <Content Include="Scripts\jquery-2.1.0.min.js" />
+    <Content Include="Scripts\jspdf.js" />
+    <Content Include="Scripts\jspdf.plugin.from_html.js" />
+    <Content Include="Scripts\jspdf.plugin.split_text_to_size.js" />
+    <Content Include="Scripts\jspdf.plugin.standard_fonts_metrics.js" />
     <Content Include="Scripts\kendo.all.min.js" />
     <Content Include="Content\kendo.bootstrap.min.css" />
     <Content Include="Content\kendo.common-bootstrap.min.css" />
