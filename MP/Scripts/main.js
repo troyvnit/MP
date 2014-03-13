@@ -41,9 +41,22 @@ $(document).ready(function () {
     getPassenger();
 });
 function demoFromHTML() {
-    html2canvas(document.body, {
+    html2canvas($("#printScreen"), {
         onrendered: function (canvas) {
-            document.body.appendChild(canvas);
+            var extraCanvasWidth = canvas.width / 3 * 2;
+            var extraCanvasHeight = canvas.height / 3 * 2;
+            var extraCanvas = document.createElement("canvas");
+            extraCanvas.setAttribute('width', extraCanvasWidth);
+            extraCanvas.setAttribute('height', extraCanvasHeight);
+            var ctx = extraCanvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(canvas, 0, 0, canvas.width, canvas.height, 0, 0, extraCanvasWidth, extraCanvasHeight);
+            var dataUrl = extraCanvas.toDataURL("image/jpeg", 2);
+            $('body').append(canvas);
+            var doc = new jsPDF();
+            doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
+            doc.save('Test.pdf');
         }
     });
 }

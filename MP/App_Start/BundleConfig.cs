@@ -28,6 +28,8 @@ namespace MP
                       "~/Scripts/jspdf.plugin.standard_fonts_metrics.js",
                       "~/Scripts/jspdf.plugin.split_text_to_size.js",
                       "~/Scripts/jspdf.plugin.from_html.js",
+                      "~/Scripts/jspdf.plugin.addimage.js",
+                      "~/Scripts/FileSaver.min.js",
                       "~/Scripts/html2canvas.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
