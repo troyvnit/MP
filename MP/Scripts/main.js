@@ -74,6 +74,59 @@ $(document).ready(function () {
         });
     };
     $("#departureTimeButtonGroup > label.active").trigger("click");
+    $('#passengerListModal').on('show.bs.modal', function (e) {
+        $("#passengerGrid").kendoGrid({
+            dataSource: {
+                transport: {
+                    read: "/Home/GetPassenger",
+                    contentType: "application/json",
+                    type: "POST",
+                    data: {
+                        DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
+                        DepartureTime: $("#DepartureTime").val()
+                    },
+                    parameterMap: function (options, operation) {
+                            return {
+                                DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
+                                DepartureTime: $("#DepartureTime").val()
+                            };
+                    }
+                },
+                serverFiltering: true
+            },
+            height: 430,
+            sortable: true,
+            columns: [{
+                field: "Id",
+                filterable: false
+            }, {
+                field: "Name",
+                title: "Tên hành khách",
+                width: 120
+            }, {
+                field: "Phone",
+                title: "Điện thoại",
+                width: 100
+            }, {
+                field: "Address",
+                title: "Địa điểm đón",
+                width: 150
+            }, {
+                field: "Town",
+                title: "Khu vực",
+                width: 100
+            }, {
+                field: "TicketQuantity",
+                title: "SL",
+                width: 70
+            }, {
+                field: "Note",
+                title: "Ghi chú",
+                width: 120
+            }
+            ]
+        });
+    });
 });
 function printScreen() {
     html2canvas($("#printScreenContent"), {
