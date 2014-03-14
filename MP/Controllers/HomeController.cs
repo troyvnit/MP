@@ -44,7 +44,7 @@ namespace MP.Controllers
 
         public ActionResult GetPassenger(TripModel tripModel)
         {
-            var passengers = passengerService.GetPassengers(tripModel).Select(Mapper.Map<Passenger, PassengerModel>);
+            var passengers = passengerService.GetPassengers(Mapper.Map<TripModel, Trip>(tripModel)).Select(Mapper.Map<Passenger, PassengerModel>);
             return Json(passengers, JsonRequestBehavior.AllowGet);
         }
 
@@ -52,7 +52,7 @@ namespace MP.Controllers
         public ActionResult AddOrUpdatePassenger(PassengerModel passengerModel, TripModel tripModel)
         {
             var passenger = Mapper.Map<PassengerModel, Passenger>(passengerModel);
-            var trip = tripService.AddOrUpdateTripFollowDepartureInfo(tripModel);
+            var trip = tripService.AddOrUpdateTripFollowDepartureInfo(Mapper.Map<TripModel, Trip>(tripModel));
             passenger.Trip = trip;
             passenger.TripId = trip.Id;
             passengerService.AddOrUpdatePassenger(passenger);

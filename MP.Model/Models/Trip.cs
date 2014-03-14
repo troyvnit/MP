@@ -8,6 +8,11 @@ namespace MP.Model.Models
 {
     public class Trip
     {
+        public Trip()
+        {
+            Passengers = new List<Passenger>();
+            Items = new List<Item>();
+        }
         public int Id { get; set; }
         public TripName TripName { get; set; }
         public string Description { get; set; }

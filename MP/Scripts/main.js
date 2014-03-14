@@ -7,6 +7,21 @@ $(document).ready(function () {
         }
     });
     var datepicker = $("#departureDateDatePicker").data("kendoDatePicker");
+    $("#today").on('click', function() {
+        datepicker.value(new Date());
+        datepicker.trigger('change');
+    });
+    $("#nextDay").on('click', function () {
+        datepicker.value(new Date(datepicker.value().setDate(datepicker.value().getDate() + 1)));
+        datepicker.trigger('change');
+    });
+    $("#lastDay").on('click', function () {
+        datepicker.value(new Date(datepicker.value().setDate(datepicker.value().getDate() - 1)));
+        datepicker.trigger('change');
+    });
+    $("#printScreen").on('click', function () {
+        printScreen();
+    });
     $('#tripContentModal').on('show.bs.modal', function (e) {
         $('#SeatNumber').val(e.relatedTarget.dataset.seatNumber);
         $('#Id').val(e.relatedTarget.dataset.id);
@@ -25,7 +40,6 @@ $(document).ready(function () {
         $("#departureTimeButtonGroup > label").removeClass("active");
         $(this).addClass("active");
         changeDepartureInfo();
-        getPassenger();
         return false;
     });
     $("#Name").not("[type=submit]").jqBootstrapValidation();
@@ -42,12 +56,13 @@ $(document).ready(function () {
         $("#departureInfoLabel").html('<h3>Tuyến ' + $("#tripName").val() + ', Ngày ' + kendo.toString(datepicker.value(), "dd/MM/yyyy") + ', Chuyến <span class="label label-success">' + $("label.active").text() + '</span></h3>');
         $("#DepartureTime").val($("label.active > input:radio[name='departuretimes']").val());
         $("#DepartureDate").val(kendo.toString(datepicker.value(), "dd/MM/yyyy"));
+        getPassenger();
     };
     var getPassenger = function () {
         $("span[class^='seat-number-']").html('');
         $.get('/Home/GetPassenger', { DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"), DepartureTime: $("#DepartureTime").val() }).done(function (result) {
             $.each(result, function () {
-                $(".seat-number-" + this.SeatNumber).html('<strong>' + this.Name + '</strong><br/>' + this.Phone + '<br/>' + this.Address);
+                $(".seat-number-" + this.SeatNumber).html('<strong>' + this.Name + ' (' + this.TicketQuantity + ' vé)</strong><br/>ĐT: ' + this.Phone + '<br/>Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ') <br/>Ghi chú: ' + this.Note);
                 $(".seat-number-" + this.SeatNumber).parent().attr("data-id", this.Id);
                 $(".seat-number-" + this.SeatNumber).parent().attr("data-name", this.Name);
                 $(".seat-number-" + this.SeatNumber).parent().attr("data-phone", this.Phone);
@@ -61,7 +76,7 @@ $(document).ready(function () {
     $("#departureTimeButtonGroup > label.active").trigger("click");
 });
 function printScreen() {
-    html2canvas($("#printScreen"), {
+    html2canvas($("#printScreenContent"), {
         onrendered: function (canvas) {
             var extraCanvasWidth = 794;
             var extraCanvasHeight = canvas.height * 794 / canvas.width;

@@ -152,6 +152,7 @@
     <Content Include="Content\Bootstrap\slider-v.gif" />
     <Content Include="Content\Bootstrap\sprite.png" />
     <Content Include="Content\Bootstrap\sprite_2x.png" />
+    <None Include="Properties\PublishProfiles\MP.pubxml" />
     <None Include="Scripts\jquery-2.1.0-vsdoc.js" />
     <Content Include="Scripts\FileSaver.min.js" />
     <Content Include="Scripts\html2canvas.js" />
@@ -212,7 +213,7 @@
       <Name>MP.Data</Name>
     </ProjectReference>
     <ProjectReference Include="..\MP.Model\MP.Model.csproj">
-      <Project>{035375ad-60e1-45d4-82a6-8b40f151535c}</Project>
+      <Project>{035375AD-60E1-45D4-82A6-8B40F151535C}</Project>
       <Name>MP.Model</Name>
     </ProjectReference>
   </ItemGroup>

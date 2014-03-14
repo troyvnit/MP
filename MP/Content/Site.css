@@ -53,11 +53,16 @@ input[type="checkbox"].input-validation-error {
 }
 
 .seat-number span:first-child{
-    font-size: 36px;
+    font-size: 30px;
     display: inline-block;
     position: absolute;
     top: 5px;
     right: 5px;
+}
+
+.seat-number span:last-child{
+    font-size: 18px;
+    color: green;
 }
 
 .padding-5px {

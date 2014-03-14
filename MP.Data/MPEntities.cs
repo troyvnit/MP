@@ -1,4 +1,5 @@
 ﻿using System.Data.Entity;
+using MP.Data.Migrations;
 using MP.Model.Models;
 
 namespace MP.Data
@@ -7,6 +8,7 @@ namespace MP.Data
     {
         public MPEntities() : base("MPEntities")
         {
+            Database.SetInitializer(new MigrateDatabaseToLatestVersion<MPEntities, Configuration>());
         }
 
         DbSet<Trip> Trips { get; set; }

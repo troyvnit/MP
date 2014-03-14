@@ -55,9 +55,9 @@
                 <div class="panel panel-default">
                     <div class="panel-body">
                         <div class="btn-group">
-                            <button type="button" class="btn btn-default">Hôm nay</button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-left"></span></button>
-                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-arrow-right"></span></button>
+                            <button type="button" class="btn btn-default" id="today">Hôm nay</button>
+                            <button type="button" class="btn btn-default" id="lastDay"><span class="glyphicon glyphicon-arrow-left"></span></button>
+                            <button type="button" class="btn btn-default" id="nextDay"><span class="glyphicon glyphicon-arrow-right"></span></button>
                         </div>
                         <input type="text" id="departureDateDatePicker" value="@String.Format("{0:dd/MM/yyyy}", DateTime.Now)" />
                         <div class="btn-group" data-toggle="buttons" id="departureTimeButtonGroup">
@@ -67,7 +67,7 @@
                                 foreach (var item in selectList)
                                 {
                                     var active = "";
-                                    if (Int32.Parse(item.Text.Replace(":", "")) > nowTime && !actived)
+                                    if ((Int32.Parse(item.Text.Replace(":", "")) > nowTime || item == selectList.Last()) && !actived )
                                     {
                                         active = "active";
                                         actived = true;
@@ -78,10 +78,11 @@
                                 }
                             }
                         </div>
+                        <button type="button" class="btn btn-success" id="printScreen">In</button>
                     </div>
                 </div>
             </div>
-            <div id="printScreen" class="container">
+            <div id="printScreenContent" class="container">
                 <div class="row">
                     <input type="hidden" id="tripName" value="@tripName" />
                     <div class="col-md-8 padding-5px" id="departureInfoLabel">

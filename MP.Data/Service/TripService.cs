@@ -4,14 +4,13 @@ using AutoMapper;
 using MP.Data.Infrastructure;
 using MP.Data.Repository;
 using MP.Model.Models;
-using MP.Models;
 
 namespace MP.Data.Service
 {
     public interface ITripService
     {
         IEnumerable<Trip> GetTrips();
-        Trip AddOrUpdateTripFollowDepartureInfo(TripModel trip);
+        Trip AddOrUpdateTripFollowDepartureInfo(Trip trip);
     }
     public class TripService : ITripService
     {
@@ -30,22 +29,21 @@ namespace MP.Data.Service
             return trips;
         }
 
-        public Trip AddOrUpdateTripFollowDepartureInfo(TripModel tripModel)
+        public Trip AddOrUpdateTripFollowDepartureInfo(Trip trip)
         {
             var existedTrip = tripRepository.GetMany(
-                a => a.DepartureDate == tripModel.DepartureDate && a.DepartureTime == tripModel.DepartureTime).FirstOrDefault();
+                a => a.DepartureDate == trip.DepartureDate && a.DepartureTime == trip.DepartureTime).FirstOrDefault();
             if (existedTrip != null)
             {
-                existedTrip.Description = tripModel.Description;
-                existedTrip.DriverName = tripModel.DriverName;
-                existedTrip.DriverPhone = tripModel.DriverPhone;
+                existedTrip.Description = trip.Description;
+                existedTrip.DriverName = trip.DriverName;
+                existedTrip.DriverPhone = trip.DriverPhone;
                 tripRepository.Update(existedTrip);
                 unitOfWork.Commit();
                 return existedTrip;
             }
             else
             {
-                var trip = Mapper.Map<TripModel, Trip>(tripModel);
                 tripRepository.Add(trip);
                 unitOfWork.Commit();
                 return trip;
