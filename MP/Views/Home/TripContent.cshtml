@@ -42,7 +42,8 @@
                      new {Text = "Đường Thét", Value = Town.DT}
                  };
     var townSelectList = new SelectList(townList, "Value", "Text");
-    var nowTime = Int32.Parse(DateTime.Now.Hour + "" + DateTime.Now.Minute);
+    var minute = DateTime.Now.Minute < 10 ? "0" + DateTime.Now.Minute : DateTime.Now.Minute.ToString() ; 
+    var nowTime = Int32.Parse(DateTime.Now.Hour + "" + minute);
 }
 <div class="tabbable">
     <ul class="nav nav-tabs nav-justified">
@@ -67,7 +68,7 @@
                                 foreach (var item in selectList)
                                 {
                                     var active = "";
-                                    if ((Int32.Parse(item.Text.Replace(":", "")) > nowTime || item == selectList.Last()) && !actived )
+                                    if ((Int32.Parse(item.Text.Replace(":", "")) > nowTime || item.Value == selectList.Last().Value) && !actived )
                                     {
                                         active = "active";
                                         actived = true;
@@ -79,6 +80,7 @@
                             }
                         </div>
                         <button type="button" class="btn btn-success" id="printScreen">In</button>
+                        <button type="button" class="btn btn-info" data-toggle="modal" data-target="#passengerListModal">In Danh Sách</button>
                     </div>
                 </div>
             </div>
@@ -152,6 +154,141 @@
                             <span class="label label-default">Cửa</span>
                             <span></span>
                         </div>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="9" data-target="#tripContentModal">
+                            <span class="label label-default">9</span>
+                            <span class="seat-number-9"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="10" data-target="#tripContentModal">
+                            <span class="label label-default">10</span>
+                            <span class="seat-number-10"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="11" data-target="#tripContentModal">
+                            <span class="label label-default">11</span>
+                            <span class="seat-number-11"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="12" data-target="#tripContentModal">
+                            <span class="label label-default">12</span>
+                            <span class="seat-number-12"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="13" data-target="#tripContentModal">
+                            <span class="label label-default">13</span>
+                            <span class="seat-number-13"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="14" data-target="#tripContentModal">
+                            <span class="label label-default">14</span>
+                            <span class="seat-number-14"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="15" data-target="#tripContentModal">
+                            <span class="label label-default">15</span>
+                            <span class="seat-number-15"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="16" data-target="#tripContentModal">
+                            <span class="label label-default">16</span>
+                            <span class="seat-number-16"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="17" data-target="#tripContentModal">
+                            <span class="label label-default">17</span>
+                            <span class="seat-number-17"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="18" data-target="#tripContentModal">
+                            <span class="label label-default">18</span>
+                            <span class="seat-number-18"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="19" data-target="#tripContentModal">
+                            <span class="label label-default">19</span>
+                            <span class="seat-number-19"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="20" data-target="#tripContentModal">
+                            <span class="label label-default">20</span>
+                            <span class="seat-number-20"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="21" data-target="#tripContentModal">
+                            <span class="label label-default">21</span>
+                            <span class="seat-number-21"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="22" data-target="#tripContentModal">
+                            <span class="label label-default">22</span>
+                            <span class="seat-number-22"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="23" data-target="#tripContentModal">
+                            <span class="label label-default">23</span>
+                            <span class="seat-number-23"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="24" data-target="#tripContentModal">
+                            <span class="label label-default">24</span>
+                            <span class="seat-number-24"></span>
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="row">
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="25" data-target="#tripContentModal">
+                            <span class="label label-default">25</span>
+                            <span class="seat-number-25"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="26" data-target="#tripContentModal">
+                            <span class="label label-default">26</span>
+                            <span class="seat-number-26"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="27" data-target="#tripContentModal">
+                            <span class="label label-default">27</span>
+                            <span class="seat-number-27"></span>
+                        </a>
+                    </div>
+                    <div class="col-md-3 padding-5px">
+                        <a href="#" class="thumbnail seat-number" data-toggle="modal" data-seat-number="28" data-target="#tripContentModal">
+                            <span class="label label-default">28</span>
+                            <span class="seat-number-28"></span>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -237,6 +374,24 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
                 <button type="button" class="btn btn-primary" id="submitPassenger">Lưu</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="passengerListModal" tabindex="-1" role="dialog" aria-labelledby="passengerListLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="passengerListLabel">Danh sách hành khách</h4>
+            </div>
+            <div class="modal-body">
+                <div id="passengerGrid"></div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-primary" id="printScreenPassengerList">In</button>
             </div>
         </div>
     </div>
