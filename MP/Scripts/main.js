@@ -98,7 +98,8 @@ $(document).ready(function () {
             sortable: true,
             columns: [{
                 field: "Id",
-                filterable: false
+                filterable: false,
+                hidden: true
             }, {
                 field: "Name",
                 title: "Tên hành khách",
@@ -110,14 +111,10 @@ $(document).ready(function () {
             }, {
                 field: "Address",
                 title: "Địa điểm đón",
-                width: 150
-            }, {
-                field: "Town",
-                title: "Khu vực",
-                width: 100
+                width: 200
             }, {
                 field: "TicketQuantity",
-                title: "SL",
+                title: "SL Vé",
                 width: 70
             }, {
                 field: "Note",

@@ -152,6 +152,7 @@
     <Content Include="Content\Bootstrap\slider-v.gif" />
     <Content Include="Content\Bootstrap\sprite.png" />
     <Content Include="Content\Bootstrap\sprite_2x.png" />
+    <Content Include="Content\bootstrap.css.map" />
     <None Include="Properties\PublishProfiles\MP.pubxml" />
     <None Include="Scripts\jquery-2.1.0-vsdoc.js" />
     <Content Include="Scripts\FileSaver.min.js" />
