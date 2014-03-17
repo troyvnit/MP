@@ -42,7 +42,8 @@ namespace MP.Mappers
         {
             Mapper.CreateMap<Trip, TripModel>();
             Mapper.CreateMap<Passenger, PassengerModel>().ForMember(a => a.Town, o => o.MapFrom(a => a.Town.ToString()));
-            Mapper.CreateMap<Item, ItemModel>();
+            Mapper.CreateMap<Item, ItemModel>()
+                .ForMember(a => a.TripDepartureDate, o => o.MapFrom(a => a.Trip.DepartureDate.ToString("dd/MM/yyyy")));
         }
     }
 }

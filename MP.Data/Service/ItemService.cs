@@ -10,9 +10,11 @@ namespace MP.Data.Service
 {
     public interface IItemService
     {
+        Item GetItem(int id);
         IEnumerable<Item> GetItems();
         IEnumerable<Item> GetItems(ItemSearchModel parameter);
         bool AddOrUpdateItem(Item item);
+        bool DeleteItem(Item item);
     }
     public class ItemService : IItemService
     {
@@ -25,6 +27,10 @@ namespace MP.Data.Service
             this.unitOfWork = unitOfWork;
         }
 
+        public Item GetItem(int id)
+        {
+            return itemRepository.GetById(id);
+        }
         public IEnumerable<Item> GetItems()
         {
             var items = itemRepository.GetAll();
@@ -36,7 +42,8 @@ namespace MP.Data.Service
             var items = itemRepository.GetMany(a => (a.Trip.DepartureDate >= parameter.fromDate || parameter.fromDate == DateTime.MinValue)
                 && (a.Trip.DepartureDate <= parameter.toDate || parameter.toDate == DateTime.MinValue)
                 && (a.Trip.DepartureTime >= parameter.fromTime || parameter.fromTime == 0)
-                && (a.Trip.DepartureTime <= parameter.toTime || parameter.toTime == 0));
+                && (a.Trip.DepartureTime <= parameter.toTime || parameter.toTime == 0) 
+                && a.Trip.TripName == parameter.TripName);
             return items;
         }
 
@@ -52,6 +59,13 @@ namespace MP.Data.Service
                 itemRepository.Add(item);
                 unitOfWork.Commit();
             }
+            return true;
+        }
+
+        public bool DeleteItem(Item item)
+        {
+            itemRepository.Delete(item);
+            unitOfWork.Commit();
             return true;
         }
     }

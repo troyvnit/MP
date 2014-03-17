@@ -1,8 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Web.Mvc;
+using System.Web.Security;
 using AutoMapper;
+using Microsoft.SqlServer.Server;
 using MP.Data.Repository;
 using MP.Data.Service;
 using MP.Model.Models;
@@ -12,6 +15,7 @@ using Newtonsoft.Json;
 
 namespace MP.Controllers
 {
+    [Authorize]
     public class HomeController : Controller
     {
         private ITripService tripService { get; set; }
@@ -23,9 +27,28 @@ namespace MP.Controllers
             this.passengerService = passengerService;
             this.itemService = itemService;
         }
-        public ActionResult Index()
+
+        [AllowAnonymous]
+        public ActionResult Login()
         {
             return View();
+        }
+
+        [AllowAnonymous]
+        [HttpPost]
+        public ActionResult Login(UserModel user)
+        {
+            if (user.UserName == ConfigurationManager.AppSettings.Get("UserName") && user.Password == ConfigurationManager.AppSettings.Get("Password"))
+            {
+                FormsAuthentication.SetAuthCookie(user.UserName, true);
+                FormsAuthentication.RedirectFromLoginPage(user.UserName, true);
+                return RedirectToAction("TripContent", "Home", new { tripname = "sg" });
+            }
+            else
+            {
+                ModelState.AddModelError("", "Tên đăng nhập hoặc mật khẩu không đúng.");
+                return View("Login", user);
+            }
         }
 
         public ActionResult About()
@@ -83,6 +106,18 @@ namespace MP.Controllers
                 item.TripId = trip.Id;
                 itemService.AddOrUpdateItem(item);
                 itemModel.Id = item.Id;
+            }
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeleteItem(string models, TripModel tripModel)
+        {
+            var items = JsonConvert.DeserializeObject<List<ItemModel>>(models);
+            foreach (var itemModel in items)
+            {
+                var item = itemService.GetItem(itemModel.Id);
+                itemService.DeleteItem(item);
             }
             return Json(items, JsonRequestBehavior.AllowGet);
         }

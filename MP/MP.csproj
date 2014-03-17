@@ -136,6 +136,7 @@
     <Compile Include="Models\PassengerModel.cs" />
     <Compile Include="Models\TransportingObjectModel.cs" />
     <Compile Include="Models\TripModel.cs" />
+    <Compile Include="Models\UserModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -202,6 +203,7 @@
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Home\TripContent.cshtml" />
     <Content Include="Scripts\jquery-2.1.0.min.map" />
+    <Content Include="Views\Home\Login.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />

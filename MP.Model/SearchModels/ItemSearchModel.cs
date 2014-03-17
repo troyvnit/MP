@@ -9,5 +9,6 @@ namespace MP.Model.SearchModels
         public DateTime toDate { get; set; }
         public DepartureTime fromTime { get; set; }
         public DepartureTime toTime { get; set; }
+        public TripName TripName { get; set; }
     }
 }

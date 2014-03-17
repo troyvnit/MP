@@ -100,13 +100,7 @@ $(document).ready(function () {
             dataSource: {
                 transport: {
                     read: "/Home/GetPassenger",
-                    contentType: "application/json",
                     type: "POST",
-                    data: {
-                        DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
-                        DepartureTime: $("#DepartureTime").val(),
-                        TripName: $("#TripName").val()
-                    },
                     parameterMap: function (options, operation) {
                             return {
                                 DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
@@ -173,6 +167,7 @@ $(document).ready(function () {
             from.max(endDate);
             to.min(endDate);
         }
+        $("#itemGrid").data("kendoGrid").dataSource.read();
     }
 
     function endChange() {
@@ -190,13 +185,16 @@ $(document).ready(function () {
             from.max(toDate);
             to.min(toDate);
         }
+        $("#itemGrid").data("kendoGrid").dataSource.read();
     }
 
     var from = $("#fromDateDatePicker").kendoDatePicker({
+        format: "dd/MM/yyyy",
         change: startChange
     }).data("kendoDatePicker");
 
     var to = $("#toDateDatePicker").kendoDatePicker({
+        format: "dd/MM/yyyy",
         change: endChange
     }).data("kendoDatePicker");
 
@@ -206,29 +204,34 @@ $(document).ready(function () {
         transport: {
             read: {
                 url: "/Home/GetItem",
-                contentType: "application/json",
                 type: "post"
             },
             update: {
                 url: "/Home/AddOrUpdateItem",
-                dataType: "jsonp",
                 type: "post"
             },
             destroy: {
-                url: "/Home/DestroyItem",
-                dataType: "jsonp",
+                url: "/Home/DeleteItem",
                 type: "post",
             },
             create: {
                 url: "/Home/AddOrUpdateItem",
-                dataType: "jsonp",
                 type: "post"
             },
             parameterMap: function (options, operation) {
                 if (operation !== "read" && options.models) {
-                    return { models: kendo.stringify(options.models), 
+                    return {
+                        models: kendo.stringify(options.models),
                         DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
                         DepartureTime: $("#DepartureTime").val(),
+                        TripName: $("#TripName").val()
+                    };
+                } else {
+                    return {
+                        fromDate: kendo.toString(from.value(), "yyyy/MM/dd"),
+                        toDate: kendo.toString(to.value(), "yyyy/MM/dd"),
+                        fromTime: $("#fromTime").val(),
+                        toTime: $("#toTime").val(),
                         TripName: $("#TripName").val()
                     };
                 }
@@ -247,10 +250,13 @@ $(document).ready(function () {
                     ReceiverName: { type: "string" },
                     ReceiverPhone: { type: "string" },
                     DeliveryAddress: { type: "string" },
-                    Note: { type: "string" }
+                    Note: { type: "string" },
+                    TripDepartureDate: { type: "string", defaultValue: kendo.toString(datepicker.value(), "dd/MM/yyyy") },
+                    TripDepartureTime: { type: "string", defaultValue: $("#DepartureTime").val() }
                 }
             }
-        }
+        },
+        group: [{ field: "TripDepartureDate" }, { field: "TripDepartureTime" }]
     });
     
     $("#itemGrid").kendoGrid({
@@ -258,18 +264,41 @@ $(document).ready(function () {
         navigatable: true,
         pageable: true,
         height: 600,
-        toolbar: ["create", "save", "cancel"],
+        toolbar: [{ name: "create", text: "Thêm" }, { name: "save", text: "Lưu" }, { name: "cancel", text: "Hủy" }],
         columns: [
-            { field: "Description", title: "Mô tả" },
+            { field: "Description", title: "Mô tả", width: 200 },
             { field: "SenderName", title: "Người gửi" },
-            { field: "SenderPhone", title: "SĐT Người gửi" },
+            { field: "SenderPhone", title: "SĐT gửi", width: 100 },
             { field: "ReceiverName", title: "Người nhận" },
-            { field: "ReceiverPhone", title: "SĐT Người nhận" },
-            { field: "DeliveryAddress", title: "Địa chỉ giao hàng" },
+            { field: "ReceiverPhone", title: "SĐT nhận", width: 100 },
+            { field: "DeliveryAddress", title: "Địa chỉ giao hàng", width: 200 },
             { field: "Note", title: "Ghi chú" },
-            { command: "destroy", title: "&nbsp;", width: 90 }
+            {
+                field: "TripDepartureDate",
+                title: "Ngày",
+                hidden: true
+            },
+            {
+                field: "TripDepartureTime",
+                title: "Chuyến",
+                hidden: true
+            },
+            { command: [{ name: "destroy", title: "&nbsp;", width: 70, text: "Xóa" }] }
         ],
         editable: true
+    });
+    $("#fromTime").on('change', function () {
+        $("#itemGrid").data("kendoGrid").dataSource.read();
+    });
+    $("#toTime").on('change', function () {
+        $("#itemGrid").data("kendoGrid").dataSource.read();
+    });
+    $("#showAllItems").on('click', function () {
+        from.value(0);
+        to.value(0);
+        $("#fromTime").val('');
+        $("#toTime").val('');
+        $("#itemGrid").data("kendoGrid").dataSource.read();
     });
 });
 function printScreen() {

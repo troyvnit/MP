@@ -8,5 +8,7 @@
         public string ReceiverName { get; set; }
         public string ReceiverPhone { get; set; }
         public string DeliveryAddress { get; set; }
+        public string TripDepartureDate { get; set; }
+        public string TripDepartureTime { get; set; }
     }
 }
