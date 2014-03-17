@@ -19,6 +19,7 @@ namespace MP
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
                       "~/Scripts/bootstrap.js",
                       "~/Scripts/jqBootstrapValidation.js",
+                      "~/Scripts/bootstrap-multiselect.js",
                       "~/Scripts/kendo.all.min.js",
                       "~/Scripts/respond.js",
                       "~/Scripts/main.js"));
@@ -35,6 +36,7 @@ namespace MP
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap.custom.css",
+                      "~/Content/bootstrap-multiselect.css",
                       "~/Content/kendo.common-bootstrap.min.css",
                       "~/Content/kendo.bootstrap.min.css",
                       "~/Content/site.css"));

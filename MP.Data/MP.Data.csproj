@@ -73,6 +73,7 @@
     <Compile Include="Repository\ItemRepository.cs" />
     <Compile Include="Repository\PassengerRepository.cs" />
     <Compile Include="Repository\TripRepository.cs" />
+    <Compile Include="Service\ItemService.cs" />
     <Compile Include="Service\PassengerService.cs" />
     <Compile Include="Service\TripService.cs" />
   </ItemGroup>

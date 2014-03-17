@@ -31,7 +31,7 @@ namespace MP.Data.Service
 
         public IEnumerable<Passenger> GetPassengers(Trip trip)
         {
-            var passengers = passengerRepository.GetMany(a => a.Trip.DepartureDate == trip.DepartureDate && a.Trip.DepartureTime == trip.DepartureTime);
+            var passengers = passengerRepository.GetMany(a => a.Trip.DepartureDate == trip.DepartureDate && a.Trip.DepartureTime == trip.DepartureTime && a.Trip.TripName == trip.TripName);
             return passengers;
         }
 

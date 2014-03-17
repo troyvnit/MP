@@ -1,10 +1,14 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web.Mvc;
 using AutoMapper;
 using MP.Data.Repository;
 using MP.Data.Service;
 using MP.Model.Models;
+using MP.Model.SearchModels;
 using MP.Models;
+using Newtonsoft.Json;
 
 namespace MP.Controllers
 {
@@ -12,10 +16,12 @@ namespace MP.Controllers
     {
         private ITripService tripService { get; set; }
         private IPassengerService passengerService { get; set; }
-        public HomeController(ITripService tripService, IPassengerService passengerService)
+        private IItemService itemService { get; set; }
+        public HomeController(ITripService tripService, IPassengerService passengerService, IItemService itemService)
         {
             this.tripService = tripService;
             this.passengerService = passengerService;
+            this.itemService = itemService;
         }
         public ActionResult Index()
         {
@@ -57,6 +63,28 @@ namespace MP.Controllers
             passenger.TripId = trip.Id;
             passengerService.AddOrUpdatePassenger(passenger);
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult GetItem(ItemSearchModel parameter)
+        {
+            var items = itemService.GetItems(parameter).Select(Mapper.Map<Item, ItemModel>);
+            return Json(items, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult AddOrUpdateItem(string models, TripModel tripModel)
+        {
+            var items = JsonConvert.DeserializeObject<List<ItemModel>>(models);
+            foreach (var itemModel in items)
+            {
+                var item = Mapper.Map<ItemModel, Item>(itemModel);
+                var trip = tripService.AddOrUpdateTripFollowDepartureInfo(Mapper.Map<TripModel, Trip>(tripModel));
+                item.Trip = trip;
+                item.TripId = trip.Id;
+                itemService.AddOrUpdateItem(item);
+                itemModel.Id = item.Id;
+            }
+            return Json(items, JsonRequestBehavior.AllowGet);
         }
     }
 }

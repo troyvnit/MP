@@ -22,6 +22,9 @@ $(document).ready(function () {
     $("#printScreen").on('click', function () {
         printScreen();
     });
+    $("#printScreenPassengerList").on('click', function () {
+        printScreenPassengerList();
+    });
     $('#tripContentModal').on('show.bs.modal', function (e) {
         $('#SeatNumber').val(e.relatedTarget.dataset.seatNumber);
         $('#Id').val(e.relatedTarget.dataset.id);
@@ -45,31 +48,49 @@ $(document).ready(function () {
     $("#Name").not("[type=submit]").jqBootstrapValidation();
     $("#submitPassenger").on('click', function () {
         $('form input').removeAttr("disabled");
+        var ticketQuantity = parseInt($('#TicketQuantity').val());
+        var seatNumbers = [];
+        $('#SeatNumber').val($('#SeatNumber').val().split(',')[0]);
+        for (var i = 0; i < ticketQuantity; i++) {
+            seatNumbers.push(parseInt($('#SeatNumber').val()) + i);
+        }
+        $('#SeatNumber').val(seatNumbers.join(','));
         $.post('/Home/AddOrUpdatePassenger', $('form').serialize()).done(function (result) {
             if (result) {
                 getPassenger();
+                $('#tripContentModal').modal("hide");
+            } else {
+                $('#tripContentModal').modal("show");
             }
-            $('#tripContentModal').modal("hide");
         });
     });
     var changeDepartureInfo = function () {
-        $("#departureInfoLabel").html('<h3>Tuyến ' + $("#tripName").val() + ', Ngày ' + kendo.toString(datepicker.value(), "dd/MM/yyyy") + ', Chuyến <span class="label label-success">' + $("label.active").text() + '</span></h3>');
+        $("#departureInfoLabel").html('<h3>Tuyến ' + $("#TripName").attr('text') + ', Ngày ' + kendo.toString(datepicker.value(), "dd/MM/yyyy") + ', Chuyến <span class="label label-success">' + $("label.active").text() + '</span></h3>');
         $("#DepartureTime").val($("label.active > input:radio[name='departuretimes']").val());
         $("#DepartureDate").val(kendo.toString(datepicker.value(), "dd/MM/yyyy"));
         getPassenger();
     };
     var getPassenger = function () {
         $("span[class^='seat-number-']").html('');
-        $.get('/Home/GetPassenger', { DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"), DepartureTime: $("#DepartureTime").val() }).done(function (result) {
+        $.get('/Home/GetPassenger', { DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"), DepartureTime: $("#DepartureTime").val(), TripName: $("#TripName").val() }).done(function (result) {
             $.each(result, function () {
-                $(".seat-number-" + this.SeatNumber).html('<strong>' + this.Name + ' (' + this.TicketQuantity + ' vé)</strong><br/>ĐT: ' + this.Phone + '<br/>Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ') <br/>Ghi chú: ' + this.Note);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-id", this.Id);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-name", this.Name);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-phone", this.Phone);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-address", this.Address);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-ticket-quantity", this.TicketQuantity);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-town", this.Town);
-                $(".seat-number-" + this.SeatNumber).parent().attr("data-note", this.Note);
+                var seatNumbers = this.SeatNumber.split(',');
+                var textColor = 'rgb('
+                                + (Math.floor(Math.random() * 256)) + ','
+                                + (Math.floor(Math.random() * 256)) + ','
+                                + (Math.floor(Math.random() * 256)) + ')';
+                for (var i = 0; i < seatNumbers.length; i++) {
+                    $(".seat-number-" + seatNumbers[i]).css('color', textColor);
+                    $(".seat-number-" + seatNumbers[i]).html('<strong>' + this.Name + ' (' + this.TicketQuantity + ' vé)</strong><br/>ĐT: ' + this.Phone + '<br/>Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ') <br/>Ghi chú: ' + this.Note);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-id", this.Id);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-name", this.Name);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-phone", this.Phone);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-address", this.Address);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-ticket-quantity", this.TicketQuantity);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-town", this.Town);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-note", this.Note);
+                    $(".seat-number-" + seatNumbers[i]).parent().attr("data-seat-number", this.SeatNumber);
+                }
             });
         });
     };
@@ -83,24 +104,22 @@ $(document).ready(function () {
                     type: "POST",
                     data: {
                         DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
-                        DepartureTime: $("#DepartureTime").val()
+                        DepartureTime: $("#DepartureTime").val(),
+                        TripName: $("#TripName").val()
                     },
                     parameterMap: function (options, operation) {
                             return {
                                 DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
-                                DepartureTime: $("#DepartureTime").val()
+                                DepartureTime: $("#DepartureTime").val(),
+                                TripName: $("#TripName").val()
                             };
                     }
-                },
-                serverFiltering: true
+                }
             },
-            height: 430,
+            height: 600,
             sortable: true,
+            filterable: true,
             columns: [{
-                field: "Id",
-                filterable: false,
-                hidden: true
-            }, {
                 field: "Name",
                 title: "Tên hành khách",
                 width: 120
@@ -124,6 +143,134 @@ $(document).ready(function () {
             ]
         });
     });
+    
+    $("#selectTown").multiselect({
+        includeSelectAllOption: true
+    });
+    $("#filterTown").on('click', function() {
+        var dataSource = $("#passengerGrid").data("kendoGrid").dataSource;
+        dataSource.filter({
+            "field": "Town",
+            "operator": function(item) {
+                var items = $("#selectTown").val();
+                console.log($.inArray(item, items));
+                return $.inArray(item, items) != -1;
+            }
+    });
+    });
+    function startChange() {
+        var startDate = from.value(),
+        endDate = to.value();
+
+        if (startDate) {
+            startDate = new Date(startDate);
+            startDate.setDate(startDate.getDate());
+            to.min(startDate);
+        } else if (endDate) {
+            from.max(new Date(endDate));
+        } else {
+            endDate = new Date();
+            from.max(endDate);
+            to.min(endDate);
+        }
+    }
+
+    function endChange() {
+        var toDate = to.value(),
+        fromDate = from.value();
+
+        if (toDate) {
+            toDate = new Date(toDate);
+            toDate.setDate(toDate.getDate());
+            from.max(toDate);
+        } else if (fromDate) {
+            to.min(new Date(fromDate));
+        } else {
+            toDate = new Date();
+            from.max(toDate);
+            to.min(toDate);
+        }
+    }
+
+    var from = $("#fromDateDatePicker").kendoDatePicker({
+        change: startChange
+    }).data("kendoDatePicker");
+
+    var to = $("#toDateDatePicker").kendoDatePicker({
+        change: endChange
+    }).data("kendoDatePicker");
+
+    from.max(to.value());
+    to.min(from.value());
+    var itemDataSource = new kendo.data.DataSource({
+        transport: {
+            read: {
+                url: "/Home/GetItem",
+                contentType: "application/json",
+                type: "post"
+            },
+            update: {
+                url: "/Home/AddOrUpdateItem",
+                dataType: "jsonp",
+                type: "post"
+            },
+            destroy: {
+                url: "/Home/DestroyItem",
+                dataType: "jsonp",
+                type: "post",
+            },
+            create: {
+                url: "/Home/AddOrUpdateItem",
+                dataType: "jsonp",
+                type: "post"
+            },
+            parameterMap: function (options, operation) {
+                if (operation !== "read" && options.models) {
+                    return { models: kendo.stringify(options.models), 
+                        DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
+                        DepartureTime: $("#DepartureTime").val(),
+                        TripName: $("#TripName").val()
+                    };
+                }
+            }
+        },
+        batch: true,
+        pageSize: 20,
+        schema: {
+            model: {
+                id: "Id",
+                fields: {
+                    Id: { editable: false, nullable: false, defaultValue: 0 },
+                    Description: { type: "string" },
+                    SenderName: { type: "string" },
+                    SenderPhone: { type: "string" },
+                    ReceiverName: { type: "string" },
+                    ReceiverPhone: { type: "string" },
+                    DeliveryAddress: { type: "string" },
+                    Note: { type: "string" }
+                }
+            }
+        }
+    });
+    
+    $("#itemGrid").kendoGrid({
+        dataSource: itemDataSource,
+        navigatable: true,
+        pageable: true,
+        height: 600,
+        toolbar: ["create", "save", "cancel"],
+        columns: [
+            { field: "Description", title: "Mô tả" },
+            { field: "SenderName", title: "Người gửi" },
+            { field: "SenderPhone", title: "SĐT Người gửi" },
+            { field: "ReceiverName", title: "Người nhận" },
+            { field: "ReceiverPhone", title: "SĐT Người nhận" },
+            { field: "DeliveryAddress", title: "Địa chỉ giao hàng" },
+            { field: "Note", title: "Ghi chú" },
+            { command: "destroy", title: "&nbsp;", width: 90 }
+        ],
+        editable: true
+    });
 });
 function printScreen() {
     html2canvas($("#printScreenContent"), {
@@ -138,10 +285,29 @@ function printScreen() {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(canvas, 0, 0, extraCanvasWidth, extraCanvasHeight);
             var dataUrl = extraCanvas.toDataURL("image/jpeg", 1);
-            $('body').append(canvas);
             var doc = new jsPDF();
             doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
-            doc.save('Test.pdf');
+            doc.save('SM_' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '.pdf');
+        }
+    });
+} 
+function printScreenPassengerList() {
+    html2canvas($("#passengerGrid"), {
+        onrendered: function (canvas) {
+            var extraCanvasWidth = 794;
+            var extraCanvasHeight = canvas.height * 794 / canvas.width;
+            var extraCanvas = document.createElement("canvas");
+            extraCanvas.setAttribute('width', extraCanvasWidth);
+            extraCanvas.setAttribute('height', extraCanvasHeight);
+            var ctx = extraCanvas.getContext('2d');
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            ctx.drawImage(canvas, 0, 0, extraCanvasWidth, extraCanvasHeight);
+            var dataUrl = extraCanvas.toDataURL("image/jpeg", 1);
+            var doc = new jsPDF();
+            doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
+            var selectTowns = $("#selectTown").val() != null ? $("#selectTown").val().join('_') : "All";
+            doc.save('PLFT' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '_' + selectTowns + '.pdf');
         }
     });
 }

@@ -44,8 +44,9 @@ input[type="checkbox"].input-validation-error {
 .seat-number{
     text-decoration: none;
     padding: 5px;
-    height: 150px;
+    height: 100px;
     position: relative;
+    margin-bottom: 0px;
 }
 
 .seat-number:hover{
@@ -53,7 +54,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .seat-number span:first-child{
-    font-size: 30px;
+    font-size: 24px;
     display: inline-block;
     position: absolute;
     top: 5px;
@@ -61,10 +62,18 @@ input[type="checkbox"].input-validation-error {
 }
 
 .seat-number span:last-child{
-    font-size: 18px;
-    color: green;
+    font-size: 14px;
+}
+
+.select-time {
+    display: inline-block;
+    width: 100px;
 }
 
 .padding-5px {
     padding: 5px
+}
+
+.margin-bottom-10px {
+    margin-bottom: 10px;
 }

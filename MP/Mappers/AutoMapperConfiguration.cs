@@ -26,7 +26,8 @@ namespace MP.Mappers
         protected override void Configure()
         {
             Mapper.CreateMap<TripModel, Trip>();
-            Mapper.CreateMap<PassengerModel, Passenger>();   
+            Mapper.CreateMap<PassengerModel, Passenger>();
+            Mapper.CreateMap<ItemModel, Item>();
         }
     }
 
@@ -41,6 +42,7 @@ namespace MP.Mappers
         {
             Mapper.CreateMap<Trip, TripModel>();
             Mapper.CreateMap<Passenger, PassengerModel>().ForMember(a => a.Town, o => o.MapFrom(a => a.Town.ToString()));
+            Mapper.CreateMap<Item, ItemModel>();
         }
     }
 }
