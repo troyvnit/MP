@@ -10,5 +10,7 @@ namespace MP.Model.SearchModels
         public DepartureTime fromTime { get; set; }
         public DepartureTime toTime { get; set; }
         public TripName TripName { get; set; }
+        public int skip { get; set; }
+        public int take { get; set; }
     }
 }

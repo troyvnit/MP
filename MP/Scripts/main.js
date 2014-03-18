@@ -232,13 +232,16 @@ $(document).ready(function () {
                         toDate: kendo.toString(to.value(), "yyyy/MM/dd"),
                         fromTime: $("#fromTime").val(),
                         toTime: $("#toTime").val(),
-                        TripName: $("#TripName").val()
+                        TripName: $("#TripName").val(),
+                        skip: options.skip,
+                        take: options.take
                     };
                 }
             }
         },
         batch: true,
-        pageSize: 20,
+        pageSize: 10,
+        serverPaging: true,
         schema: {
             model: {
                 id: "Id",
@@ -251,10 +254,12 @@ $(document).ready(function () {
                     ReceiverPhone: { type: "string" },
                     DeliveryAddress: { type: "string" },
                     Note: { type: "string" },
-                    TripDepartureDate: { type: "string", defaultValue: kendo.toString(datepicker.value(), "dd/MM/yyyy") },
-                    TripDepartureTime: { type: "string", defaultValue: $("#DepartureTime").val() }
+                    TripDepartureDate: { type: "string" },
+                    TripDepartureTime: { type: "string" }
                 }
-            }
+            },
+            total: "total",
+            data: "data"
         },
         group: [{ field: "TripDepartureDate" }, { field: "TripDepartureTime" }]
     });
@@ -266,6 +271,7 @@ $(document).ready(function () {
         height: 600,
         toolbar: [{ name: "create", text: "Thêm" }, { name: "save", text: "Lưu" }, { name: "cancel", text: "Hủy" }],
         columns: [
+            { field: "Id", title: "Mã", width: 50 },
             { field: "Description", title: "Mô tả", width: 200 },
             { field: "SenderName", title: "Người gửi" },
             { field: "SenderPhone", title: "SĐT gửi", width: 100 },
@@ -300,6 +306,7 @@ $(document).ready(function () {
         $("#toTime").val('');
         $("#itemGrid").data("kendoGrid").dataSource.read();
     });
+    $("#showAllItems").trigger('click');
 });
 function printScreen() {
     html2canvas($("#printScreenContent"), {

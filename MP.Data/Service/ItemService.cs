@@ -12,7 +12,7 @@ namespace MP.Data.Service
     {
         Item GetItem(int id);
         IEnumerable<Item> GetItems();
-        IEnumerable<Item> GetItems(ItemSearchModel parameter);
+        IEnumerable<Item> GetItems(ItemSearchModel parameter, ref int total);
         bool AddOrUpdateItem(Item item);
         bool DeleteItem(Item item);
     }
@@ -37,13 +37,18 @@ namespace MP.Data.Service
             return items;
         }
 
-        public IEnumerable<Item> GetItems(ItemSearchModel parameter)
+        public IEnumerable<Item> GetItems(ItemSearchModel parameter, ref int total)
         {
             var items = itemRepository.GetMany(a => (a.Trip.DepartureDate >= parameter.fromDate || parameter.fromDate == DateTime.MinValue)
                 && (a.Trip.DepartureDate <= parameter.toDate || parameter.toDate == DateTime.MinValue)
                 && (a.Trip.DepartureTime >= parameter.fromTime || parameter.fromTime == 0)
                 && (a.Trip.DepartureTime <= parameter.toTime || parameter.toTime == 0) 
-                && a.Trip.TripName == parameter.TripName);
+                && a.Trip.TripName == parameter.TripName).Skip(parameter.skip).Take(parameter.take);
+            total = itemRepository.GetMany(a => (a.Trip.DepartureDate >= parameter.fromDate || parameter.fromDate == DateTime.MinValue)
+                && (a.Trip.DepartureDate <= parameter.toDate || parameter.toDate == DateTime.MinValue)
+                && (a.Trip.DepartureTime >= parameter.fromTime || parameter.fromTime == 0)
+                && (a.Trip.DepartureTime <= parameter.toTime || parameter.toTime == 0)
+                && a.Trip.TripName == parameter.TripName).Count();
             return items;
         }
 

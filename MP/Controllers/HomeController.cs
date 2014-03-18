@@ -90,8 +90,9 @@ namespace MP.Controllers
 
         public ActionResult GetItem(ItemSearchModel parameter)
         {
-            var items = itemService.GetItems(parameter).Select(Mapper.Map<Item, ItemModel>);
-            return Json(items, JsonRequestBehavior.AllowGet);
+            var total = 0;
+            var items = itemService.GetItems(parameter, ref total).Select(Mapper.Map<Item, ItemModel>);
+            return Json(new {data = items, total}, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]
@@ -106,6 +107,8 @@ namespace MP.Controllers
                 item.TripId = trip.Id;
                 itemService.AddOrUpdateItem(item);
                 itemModel.Id = item.Id;
+                itemModel.TripDepartureDate = item.Trip.DepartureDate.ToString("dd/MM/yyyy");
+                itemModel.TripDepartureTime = item.Trip.DepartureTime.ToString();
             }
             return Json(items, JsonRequestBehavior.AllowGet);
         }
