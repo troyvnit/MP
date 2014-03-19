@@ -26,12 +26,12 @@ $(document).ready(function () {
         printScreenPassengerList();
     });
     $('#tripContentModal').on('show.bs.modal', function (e) {
-        $('#SeatNumber').val(e.relatedTarget.dataset.seatNumber);
+        $('#SeatNumber').val(e.relatedTarget.dataset.seatNumber != undefined ? e.relatedTarget.dataset.seatNumber : e.relatedTarget.dataset.defaultSeatNumber);
         $('#Id').val(e.relatedTarget.dataset.id);
         $('#Name').val(e.relatedTarget.dataset.name);
         $('#Address').val(e.relatedTarget.dataset.address);
         $('#Phone').val(e.relatedTarget.dataset.phone);
-        $('#TicketQuantity').val(e.relatedTarget.dataset.ticketQuantity);
+        $('#TicketQuantity').val(e.relatedTarget.dataset.ticketQuantity != undefined ? e.relatedTarget.dataset.ticketQuantity : 1);
         $('#Town option').removeAttr("selected");
         $('#Town option[value=' + e.relatedTarget.dataset.town + ']').attr("selected","");
         $('#Note').val(e.relatedTarget.dataset.note);
@@ -74,6 +74,14 @@ $(document).ready(function () {
     };
     var getPassenger = function () {
         $("span[class^='seat-number-']").html('');
+        $("span[class^='seat-number-']").parent().removeAttr("data-id");
+        $("span[class^='seat-number-']").parent().removeAttr("data-name");
+        $("span[class^='seat-number-']").parent().removeAttr("data-phone");
+        $("span[class^='seat-number-']").parent().removeAttr("data-address");
+        $("span[class^='seat-number-']").parent().removeAttr("data-ticket-quantity");
+        $("span[class^='seat-number-']").parent().removeAttr("data-town");
+        $("span[class^='seat-number-']").parent().removeAttr("data-note");
+        $("span[class^='seat-number-']").parent().removeAttr("data-seat-number");
         $.get('/Home/GetPassenger', { DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"), DepartureTime: $("#DepartureTime").val(), TripName: $("#TripName").val() }).done(function (result) {
             $.each(result, function () {
                 var seatNumbers = this.SeatNumber.split(',');
@@ -279,7 +287,7 @@ $(document).ready(function () {
                 empty: "Kéo thả tên cột vào đây để xem theo nhóm."
             }
         },
-        height: 600,
+        height: 500,
         toolbar: [{ name: "create", text: "Thêm" }, { name: "save", text: "Lưu" }, { name: "cancel", text: "Hủy" }],
         edit: function(e) {
             if (e.model.isNew()) {
