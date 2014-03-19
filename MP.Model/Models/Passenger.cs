@@ -18,6 +18,6 @@ namespace MP.Model.Models
 
     public enum Town
     {
-        DD, TX, MH, TK, GT, CM, CC, N2, MD, LB, MQ, DT, MDHU
+        TR, DD, TX, MH, TK, GT, CM, CC, N2, MD, LB, MQ, DT, MDHU
     }
 }

@@ -45,8 +45,10 @@ $(document).ready(function () {
         changeDepartureInfo();
         return false;
     });
-    $("#Name").not("[type=submit]").jqBootstrapValidation();
     $("#submitPassenger").on('click', function () {
+        if (!$("#tripContentForm").valid()) {
+            return false;
+        }
         $('form input').removeAttr("disabled");
         var ticketQuantity = parseInt($('#TicketQuantity').val());
         var seatNumbers = [];
@@ -81,7 +83,11 @@ $(document).ready(function () {
                                 + (Math.floor(Math.random() * 256)) + ')';
                 for (var i = 0; i < seatNumbers.length; i++) {
                     $(".seat-number-" + seatNumbers[i]).css('color', textColor);
-                    $(".seat-number-" + seatNumbers[i]).html('<strong>' + this.Phone + ' (' + this.TicketQuantity + ' vé)</strong><br/>' + this.Name + '<br/>Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ') <br/>Ghi chú: ' + this.Note);
+                    var seatInfo = '<strong>' + this.Phone + ' (' + this.TicketQuantity + ' vé)</strong><br/>';
+                    seatInfo += this.Name != null ? 'Tên: ' + this.Name + '<br/>' : '';
+                    seatInfo += this.Address != null ? 'Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ')<br/>' : '';
+                    seatInfo += this.Note != null ? 'Ghi chú: ' + this.Note : '';
+                    $(".seat-number-" + seatNumbers[i]).html(seatInfo);
                     $(".seat-number-" + seatNumbers[i]).parent().attr("data-id", this.Id);
                     $(".seat-number-" + seatNumbers[i]).parent().attr("data-name", this.Name);
                     $(".seat-number-" + seatNumbers[i]).parent().attr("data-phone", this.Phone);
@@ -316,6 +322,30 @@ $(document).ready(function () {
         $("#itemGrid").data("kendoGrid").dataSource.read();
     });
     $("#showAllItems").trigger('click');
+    $("#tripContentForm").validate({
+        rules: {
+            Phone: "required",
+            Address: "required",
+            TicketQuantity: {
+                required: true,
+                number: true,
+                min: 1
+            }
+        },
+        messages: {
+            Phone: {
+                required: "Vui lòng nhập số điện thoại"
+            },
+            Address: {
+                required: "Vui lòng nhập địa điểm đón"
+            },
+            TicketQuantity: {
+                required: "Vui lòng nhập số lượng vé",
+                number: "Vui lòng nhập số",
+                min: "Nhỏ nhất là 1"
+            }
+        }
+    });
 });
 function printScreen() {
     html2canvas($("#printScreenContent"), {

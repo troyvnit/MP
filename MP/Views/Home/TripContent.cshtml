@@ -27,6 +27,7 @@
     var sgSelectList = new SelectList(sgList, "Value", "Text");
     var townList = new List<object>
                  {
+                     new {Text = "Đến trạm", Value = Town.TR},
                      new {Text = "Dọc đường", Value = Town.DD},
                      new {Text = "Trường Xuân", Value = Town.TX},
                      new {Text = "Mỹ Hòa", Value = Town.MH},
@@ -307,13 +308,13 @@
                 <h4 class="modal-title" id="tripContentLabel">Cập nhật hành khách</h4>
             </div>
             <div class="modal-body">
-                <form class="form-horizontal" role="form">
+                <form class="form-horizontal" id="tripContentForm" role="form">
                     <input type="hidden" id="TripName" name="TripName" text="@tripName" value="@Model.TripName" />
                     <input type="hidden" id="Id" name="Id"/>
                     <div class="form-group">
                         <label for="Phone" class="col-sm-3 control-label">Điện thoại</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Điện thoại" required data-validation-required-message="Vui lòng nhập số điện thoại">
+                            <input type="text" class="form-control" id="Phone" name="Phone" placeholder="Điện thoại">
                         </div>
                     </div>
                     <div class="form-group">
@@ -336,13 +337,13 @@
                     <div class="form-group">
                         <label for="TicketQuantity" class="col-sm-3 control-label">Số lượng vé</label>
                         <div class="col-sm-9">
-                            <input type="number" class="form-control" id="TicketQuantity" name="TicketQuantity" placeholder="Số lượng vé">
+                            <input type="number" class="form-control" id="TicketQuantity" name="TicketQuantity" value="1" placeholder="Số lượng vé">
                         </div>
                     </div>
                     <div class="form-group">
                         <label for="Name" class="col-sm-3 control-label">Tên hành khách</label>
                         <div class="col-sm-9">
-                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Tên hành khách" required aria-invalid="false" data-validation-required-message="Vui lòng nhập tên hành khách">
+                            <input type="text" class="form-control" id="Name" name="Name" placeholder="Tên hành khách">
                         </div>
                     </div>
                     <div class="form-group">
