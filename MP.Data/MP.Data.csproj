@@ -63,9 +63,9 @@
     <Compile Include="Infrastructure\Page.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201403120949180_MP.cs" />
-    <Compile Include="Migrations\201403120949180_MP.Designer.cs">
-      <DependentUpon>201403120949180_MP.cs</DependentUpon>
+    <Compile Include="Migrations\201403180909523_MP.cs" />
+    <Compile Include="Migrations\201403180909523_MP.Designer.cs">
+      <DependentUpon>201403180909523_MP.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MPEntities.cs" />
@@ -82,15 +82,15 @@
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403120949180_MP.resx">
-      <DependentUpon>201403120949180_MP.cs</DependentUpon>
-    </EmbeddedResource>
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\MP.Model\MP.Model.csproj">
       <Project>{035375AD-60E1-45D4-82A6-8B40F151535C}</Project>
       <Name>MP.Model</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201403180909523_MP.resx">
+      <DependentUpon>201403180909523_MP.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -43,7 +43,7 @@ namespace MP.Data.Service
                 && (a.Trip.DepartureDate <= parameter.toDate || parameter.toDate == DateTime.MinValue)
                 && (a.Trip.DepartureTime >= parameter.fromTime || parameter.fromTime == 0)
                 && (a.Trip.DepartureTime <= parameter.toTime || parameter.toTime == 0) 
-                && a.Trip.TripName == parameter.TripName).Skip(parameter.skip).Take(parameter.take);
+                && a.Trip.TripName == parameter.TripName).OrderByDescending(a => a.Id).Skip(parameter.skip).Take(parameter.take);
             total = itemRepository.GetMany(a => (a.Trip.DepartureDate >= parameter.fromDate || parameter.fromDate == DateTime.MinValue)
                 && (a.Trip.DepartureDate <= parameter.toDate || parameter.toDate == DateTime.MinValue)
                 && (a.Trip.DepartureTime >= parameter.fromTime || parameter.fromTime == 0)

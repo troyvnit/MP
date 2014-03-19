@@ -81,7 +81,7 @@ $(document).ready(function () {
                                 + (Math.floor(Math.random() * 256)) + ')';
                 for (var i = 0; i < seatNumbers.length; i++) {
                     $(".seat-number-" + seatNumbers[i]).css('color', textColor);
-                    $(".seat-number-" + seatNumbers[i]).html('<strong>' + this.Name + ' (' + this.TicketQuantity + ' vé)</strong><br/>ĐT: ' + this.Phone + '<br/>Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ') <br/>Ghi chú: ' + this.Note);
+                    $(".seat-number-" + seatNumbers[i]).html('<strong>' + this.Phone + ' (' + this.TicketQuantity + ' vé)</strong><br/>' + this.Name + '<br/>Đón tại: ' + this.Address + ' (' + $('#Town option[value=' + this.Town + ']').text() + ') <br/>Ghi chú: ' + this.Note);
                     $(".seat-number-" + seatNumbers[i]).parent().attr("data-id", this.Id);
                     $(".seat-number-" + seatNumbers[i]).parent().attr("data-name", this.Name);
                     $(".seat-number-" + seatNumbers[i]).parent().attr("data-phone", this.Phone);
@@ -114,10 +114,6 @@ $(document).ready(function () {
             sortable: true,
             filterable: true,
             columns: [{
-                field: "Name",
-                title: "Tên hành khách",
-                width: 120
-            }, {
                 field: "Phone",
                 title: "Điện thoại",
                 width: 100
@@ -129,6 +125,10 @@ $(document).ready(function () {
                 field: "TicketQuantity",
                 title: "SL Vé",
                 width: 70
+            }, {
+                field: "Name",
+                title: "Tên hành khách",
+                width: 120
             }, {
                 field: "Note",
                 title: "Ghi chú",
@@ -222,8 +222,8 @@ $(document).ready(function () {
                 if (operation !== "read" && options.models) {
                     return {
                         models: kendo.stringify(options.models),
-                        DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"),
-                        DepartureTime: $("#DepartureTime").val(),
+                        DepartureDate: options.models[0].TripDepartureDate == "" ? kendo.toString(datepicker.value(), "yyyy/MM/dd") : options.models[0].TripDepartureDate,
+                        DepartureTime: options.models[0].TripDepartureTime == "" ? $("#DepartureTime").val() : options.models[0].TripDepartureTime,
                         TripName: $("#TripName").val()
                     };
                 } else {
@@ -247,6 +247,7 @@ $(document).ready(function () {
                 id: "Id",
                 fields: {
                     Id: { editable: false, nullable: false, defaultValue: 0 },
+                    ItemCode: { type: "string" },
                     Description: { type: "string" },
                     SenderName: { type: "string" },
                     SenderPhone: { type: "string" },
@@ -260,34 +261,42 @@ $(document).ready(function () {
             },
             total: "total",
             data: "data"
-        },
-        group: [{ field: "TripDepartureDate" }, { field: "TripDepartureTime" }]
+        }
     });
     
     $("#itemGrid").kendoGrid({
         dataSource: itemDataSource,
         navigatable: true,
         pageable: true,
+        groupable: {
+            messages: {
+                empty: "Kéo thả tên cột vào đây để xem theo nhóm."
+            }
+        },
         height: 600,
         toolbar: [{ name: "create", text: "Thêm" }, { name: "save", text: "Lưu" }, { name: "cancel", text: "Hủy" }],
+        edit: function(e) {
+            if (e.model.isNew()) {
+                e.model.set("TripDepartureDate", kendo.toString(datepicker.value(), "dd/MM/yyyy"));
+                e.model.set("TripDepartureTime", $("#DepartureTime").val());
+            }
+        },
         columns: [
-            { field: "Id", title: "Mã", width: 50 },
+            { field: "ItemCode", title: "Mã", width: 50 },
             { field: "Description", title: "Mô tả", width: 200 },
-            { field: "SenderName", title: "Người gửi" },
-            { field: "SenderPhone", title: "SĐT gửi", width: 100 },
             { field: "ReceiverName", title: "Người nhận" },
             { field: "ReceiverPhone", title: "SĐT nhận", width: 100 },
+            { field: "SenderName", title: "Người gửi", hidden: true },
+            { field: "SenderPhone", title: "SĐT gửi", width: 100, hidden: true },
             { field: "DeliveryAddress", title: "Địa chỉ giao hàng", width: 200 },
             { field: "Note", title: "Ghi chú" },
             {
                 field: "TripDepartureDate",
-                title: "Ngày",
-                hidden: true
+                title: "Ngày", width: 100
             },
             {
                 field: "TripDepartureTime",
-                title: "Chuyến",
-                hidden: true
+                title: "Chuyến", width: 70
             },
             { command: [{ name: "destroy", title: "&nbsp;", width: 70, text: "Xóa" }] }
         ],
