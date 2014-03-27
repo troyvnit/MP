@@ -44,7 +44,7 @@ input[type="checkbox"].input-validation-error {
 .seat-number{
     text-decoration: none;
     padding: 5px;
-    height: 100px;
+    height: 150px;
     position: relative;
     margin-bottom: 0px;
 }
@@ -54,7 +54,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .seat-number span:first-child{
-    font-size: 24px;
+    font-size: 20px;
     display: inline-block;
     position: absolute;
     top: 5px;
@@ -62,7 +62,7 @@ input[type="checkbox"].input-validation-error {
 }
 
 .seat-number span:last-child{
-    font-size: 14px;
+    font-size: 18px;
 }
 
 .select-time {

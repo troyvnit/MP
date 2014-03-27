@@ -27,8 +27,8 @@
     var sgSelectList = new SelectList(sgList, "Value", "Text");
     var townList = new List<object>
                  {
-                     new {Text = "Đến trạm", Value = Town.TR},
-                     new {Text = "Dọc đường", Value = Town.DD},
+                     new {Text = "Đến Trạm", Value = Town.TR},
+                     new {Text = "Dọc Đường", Value = Town.DD},
                      new {Text = "Trường Xuân", Value = Town.TX},
                      new {Text = "Mỹ Hòa", Value = Town.MH},
                      new {Text = "Tân Kiều", Value = Town.TK},
@@ -40,7 +40,8 @@
                      new {Text = "Mỹ Đông Huyện Ủy", Value = Town.MDHU},
                      new {Text = "Láng Biển", Value = Town.LB},
                      new {Text = "Mỹ Quý", Value = Town.MQ},
-                     new {Text = "Đường Thét", Value = Town.DT}
+                     new {Text = "Đường Thét", Value = Town.DT},
+                     new {Text = "Khu Hành Chính", Value = Town.KHC}
                  };
     var townSelectList = new SelectList(townList, "Value", "Text");
     var minute = DateTime.Now.Minute < 10 ? "0" + DateTime.Now.Minute : DateTime.Now.Minute.ToString() ; 
@@ -373,7 +374,7 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+                <button type="button" class="btn btn-danger" id="cancelPassenger">Hủy</button>
                 <button type="button" class="btn btn-primary" id="submitPassenger">Lưu</button>
             </div>
         </div>

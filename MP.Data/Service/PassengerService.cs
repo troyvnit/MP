@@ -8,9 +8,11 @@ namespace MP.Data.Service
 {
     public interface IPassengerService
     {
+        Passenger GetPassenger(int id);
         IEnumerable<Passenger> GetPassengers();
         IEnumerable<Passenger> GetPassengers(Trip trip);
         bool AddOrUpdatePassenger(Passenger passenger);
+        bool DeletePassenger(Passenger passenger);
     }
     public class PassengerService : IPassengerService
     {
@@ -22,7 +24,10 @@ namespace MP.Data.Service
             this.passengerRepository = passengerRepository;
             this.unitOfWork = unitOfWork;
         }
-
+        public Passenger GetPassenger(int id)
+        {
+            return passengerRepository.GetById(id);
+        }
         public IEnumerable<Passenger> GetPassengers()
         {
             var passengers = passengerRepository.GetAll();
@@ -47,6 +52,13 @@ namespace MP.Data.Service
                 passengerRepository.Add(passenger);
                 unitOfWork.Commit();
             }
+            return true;
+        }
+
+        public bool DeletePassenger(Passenger passenger)
+        {
+            passengerRepository.Delete(passenger);
+            unitOfWork.Commit();
             return true;
         }
     }

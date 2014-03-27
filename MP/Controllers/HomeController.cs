@@ -31,18 +31,26 @@ namespace MP.Controllers
         [AllowAnonymous]
         public ActionResult Login()
         {
+            if (HttpContext.User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("TripContent", "Home", new { tripname = "ma" });
+            }
             return View();
         }
 
         [AllowAnonymous]
         [HttpPost]
-        public ActionResult Login(UserModel user)
+        public ActionResult Login(UserModel user, string returnUrl)
         {
             if (user.UserName == ConfigurationManager.AppSettings.Get("UserName") && user.Password == ConfigurationManager.AppSettings.Get("Password"))
             {
-                FormsAuthentication.SetAuthCookie(user.UserName, true);
-                FormsAuthentication.RedirectFromLoginPage(user.UserName, true);
-                return RedirectToAction("TripContent", "Home", new { tripname = "sg" });
+                FormsAuthentication.SetAuthCookie(user.UserName, false);
+                FormsAuthentication.RedirectFromLoginPage(user.UserName, false);
+                if (!string.IsNullOrEmpty(returnUrl))
+                {
+                    return Redirect(returnUrl);
+                }
+                return RedirectToAction("TripContent", "Home", new { tripname = "ma" });
             }
             else
             {
@@ -86,6 +94,14 @@ namespace MP.Controllers
             passenger.TripId = trip.Id;
             passengerService.AddOrUpdatePassenger(passenger);
             return Json(true, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPost]
+        public ActionResult DeletePassenger(PassengerModel passengerModel, TripModel tripModel)
+        {
+                var passenger = passengerService.GetPassenger(passengerModel.Id);
+                passengerService.DeletePassenger(passenger);
+                return Json(passengerModel, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult GetItem(ItemSearchModel parameter)

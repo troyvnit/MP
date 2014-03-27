@@ -38,6 +38,8 @@ $(document).ready(function () {
         $('#DepartureDate').attr("disabled", "");
         $('#DepartureTime').attr("disabled", "");
         $('#SeatNumber').attr("disabled", "");
+        var displayCancelPassenger = e.relatedTarget.dataset.id == undefined ? "none" : "inline-block";
+        $('#cancelPassenger').css('display', displayCancelPassenger);
     });
     $("#departureTimeButtonGroup > label").on('click', function (e) {
         $("#departureTimeButtonGroup > label").removeClass("active");
@@ -66,6 +68,16 @@ $(document).ready(function () {
             }
         });
     });
+    $("#cancelPassenger").on('click', function () {
+        $.post('/Home/DeletePassenger', $('form').serialize()).done(function (result) {
+            if (result) {
+                getPassenger();
+                $('#tripContentModal').modal("hide");
+            } else {
+                $('#tripContentModal').modal("show");
+            }
+        });
+    });
     var changeDepartureInfo = function () {
         $("#departureInfoLabel").html('<h3>Tuyến ' + $("#TripName").attr('text') + ', Ngày ' + kendo.toString(datepicker.value(), "dd/MM/yyyy") + ', Chuyến <span class="label label-success">' + $("label.active").text() + '</span></h3>');
         $("#DepartureTime").val($("label.active > input:radio[name='departuretimes']").val());
@@ -85,10 +97,7 @@ $(document).ready(function () {
         $.get('/Home/GetPassenger', { DepartureDate: kendo.toString(datepicker.value(), "yyyy/MM/dd"), DepartureTime: $("#DepartureTime").val(), TripName: $("#TripName").val() }).done(function (result) {
             $.each(result, function () {
                 var seatNumbers = this.SeatNumber.split(',');
-                var textColor = 'rgb('
-                                + (Math.floor(Math.random() * 256)) + ','
-                                + (Math.floor(Math.random() * 256)) + ','
-                                + (Math.floor(Math.random() * 256)) + ')';
+                var textColor = seatNumbers.length > 1 ? 'blue' : 'black';
                 for (var i = 0; i < seatNumbers.length; i++) {
                     $(".seat-number-" + seatNumbers[i]).css('color', textColor);
                     var seatInfo = '<strong>' + this.Phone + ' (' + this.TicketQuantity + ' vé)</strong><br/>';
@@ -124,17 +133,16 @@ $(document).ready(function () {
                     }
                 }
             },
-            height: 600,
             sortable: true,
             filterable: true,
             columns: [{
                 field: "Phone",
                 title: "Điện thoại",
-                width: 100
+                width: 120
             }, {
                 field: "Address",
                 title: "Địa điểm đón",
-                width: 200
+                width: 220
             }, {
                 field: "TicketQuantity",
                 title: "SL Vé",
@@ -144,9 +152,9 @@ $(document).ready(function () {
                 title: "Tên hành khách",
                 width: 120
             }, {
-                field: "Note",
-                title: "Ghi chú",
-                width: 120
+                field: "SeatNumber",
+                title: "Số ghế",
+                width: 100
             }
             ]
         });
