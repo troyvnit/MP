@@ -126,3 +126,5 @@
 .tabbable:after {
   clear: both;
 }
+
+.modal-xlg { width: 1200px; }

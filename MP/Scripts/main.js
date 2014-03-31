@@ -148,10 +148,6 @@ $(document).ready(function () {
                 title: "SL Vé",
                 width: 70
             }, {
-                field: "Name",
-                title: "Tên hành khách",
-                width: 120
-            }, {
                 field: "SeatNumber",
                 title: "Số ghế",
                 width: 100
@@ -159,7 +155,10 @@ $(document).ready(function () {
             ]
         });
     });
-    
+    $('#passengerListModal').on('hide.bs.modal', function (e) {
+        $("#passengerGrid.k-grid tr td").css("font-size", "24px");
+        $("#passengerGrid.k-grid tr td").css("color", "black");
+    });
     $("#selectTown").multiselect({
         includeSelectAllOption: true
     });
@@ -383,19 +382,20 @@ function printScreen() {
     });
 } 
 function printScreenPassengerList() {
+    $('#passengerListModal').modal("hide");
     html2canvas($("#passengerGrid"), {
         onrendered: function (canvas) {
-            var extraCanvasWidth = 794;
-            var extraCanvasHeight = canvas.height * 794 / canvas.width;
-            var extraCanvas = document.createElement("canvas");
-            extraCanvas.setAttribute('width', extraCanvasWidth);
-            extraCanvas.setAttribute('height', extraCanvasHeight);
-            var ctx = extraCanvas.getContext('2d');
-            ctx.fillStyle = 'white';
-            ctx.fillRect(0, 0, canvas.width, canvas.height);
-            ctx.drawImage(canvas, 0, 0, extraCanvasWidth, extraCanvasHeight);
-            var dataUrl = extraCanvas.toDataURL("image/jpeg", 1);
-            var doc = new jsPDF();
+            //var extraCanvasWidth = 794;
+            //var extraCanvasHeight = canvas.height * 794 / canvas.width;
+            //var extraCanvas = document.createElement("canvas");
+            //extraCanvas.setAttribute('width', extraCanvasWidth);
+            //extraCanvas.setAttribute('height', extraCanvasHeight);
+            //var ctx = extraCanvas.getContext('2d');
+            //ctx.fillStyle = 'white';
+            //ctx.fillRect(0, 0, canvas.width, canvas.height);
+            //ctx.drawImage(canvas, 0, 0, extraCanvasWidth, extraCanvasHeight);
+            var dataUrl = canvas.toDataURL("image/jpeg", 1);
+            var doc = new jsPDF('landscape');
             doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
             var selectTowns = $("#selectTown").val() != null ? $("#selectTown").val().join('_') : "All";
             doc.save('PLFT' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '_' + selectTowns + '.pdf');
