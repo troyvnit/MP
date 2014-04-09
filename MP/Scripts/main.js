@@ -375,9 +375,12 @@ function printScreen() {
             ctx.fillRect(0, 0, canvas.width, canvas.height);
             ctx.drawImage(canvas, 0, 0, extraCanvasWidth, extraCanvasHeight);
             var dataUrl = extraCanvas.toDataURL("image/jpeg", 1);
-            var doc = new jsPDF();
-            doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
-            doc.save('SM_' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '.pdf');
+            $("body").append("<div id='printScreenDiv'><img src='" + dataUrl + "'/></div>");
+            $("#printScreenDiv").printArea();
+            $("#printScreenDiv").remove();
+            //var doc = new jsPDF();
+            //doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
+            //doc.save('SM_' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '.pdf');
         }
     });
 } 
@@ -395,10 +398,13 @@ function printScreenPassengerList() {
             //ctx.fillRect(0, 0, canvas.width, canvas.height);
             //ctx.drawImage(canvas, 0, 0, extraCanvasWidth, extraCanvasHeight);
             var dataUrl = canvas.toDataURL("image/jpeg", 1);
-            var doc = new jsPDF('landscape');
-            doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
-            var selectTowns = $("#selectTown").val() != null ? $("#selectTown").val().join('_') : "All";
-            doc.save('PLFT' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '_' + selectTowns + '.pdf');
+            $("body").append("<div id='printScreenPassengerListDiv'><img src='" + dataUrl + "'/></div>");
+            $("#printScreenPassengerListDiv").printArea();
+            $("#printScreenPassengerListDiv").remove();
+            //var doc = new jsPDF('landscape');
+            //doc.addImage(dataUrl, 'JPEG', 0, 0, null, null);
+            //var selectTowns = $("#selectTown").val() != null ? $("#selectTown").val().join('_') : "All";
+            //doc.save('PLFT' + kendo.toString($("#departureDateDatePicker").data("kendoDatePicker").value(), "dd_MM_yyyy") + '_' + $("#DepartureTime").val().replace(':', '_') + '_' + selectTowns + '.pdf');
         }
     });
 }
