@@ -31,7 +31,8 @@ namespace MP
                       "~/Scripts/jspdf.plugin.from_html.js",
                       "~/Scripts/jspdf.plugin.addimage.js",
                       "~/Scripts/FileSaver.min.js",
-                      "~/Scripts/html2canvas.js"));
+                      "~/Scripts/html2canvas.js",
+                      "~/Scripts/jquery.print-area.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
