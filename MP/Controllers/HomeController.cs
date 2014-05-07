@@ -81,7 +81,7 @@ namespace MP.Controllers
 
         public ActionResult GetPassenger(TripModel tripModel)
         {
-            var passengers = passengerService.GetPassengers(Mapper.Map<TripModel, Trip>(tripModel)).Select(Mapper.Map<Passenger, PassengerModel>);
+            var passengers = passengerService.GetPassengers(Mapper.Map<TripModel, Trip>(tripModel)).OrderBy(a => a.Town).Select(Mapper.Map<Passenger, PassengerModel>);
             return Json(passengers, JsonRequestBehavior.AllowGet);
         }
 
