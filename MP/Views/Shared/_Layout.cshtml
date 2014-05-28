@@ -16,10 +16,10 @@
             </div>
             <nav class="collapse navbar-collapse" role="navigation">
                 <ul class="nav navbar-nav">
-                    <li>
+                    <li class="@(Request.Params["tripname"] != null && Request.Params["tripname"].ToUpper() == TripName.MA.ToString() ? "active" : "")">
                         <a href="@Url.Action("TripContent", "Home", new { tripname = "ma" })">Mỹ An - Sài Gòn</a>
                     </li>
-                    <li>
+                    <li class="@(Request.Params["tripname"] != null && Request.Params["tripname"].ToUpper() == TripName.SG.ToString() ? "active" : "")">
                         <a href="@Url.Action("TripContent", "Home", new { tripname = "sg" })">Sài Gòn - Mỹ An</a>
                     </li>
                 </ul>

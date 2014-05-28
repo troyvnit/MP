@@ -63,9 +63,9 @@
     <Compile Include="Infrastructure\Page.cs" />
     <Compile Include="Infrastructure\RepositoryBase.cs" />
     <Compile Include="Infrastructure\UnitOfWork.cs" />
-    <Compile Include="Migrations\201403180909523_MP.cs" />
-    <Compile Include="Migrations\201403180909523_MP.Designer.cs">
-      <DependentUpon>201403180909523_MP.cs</DependentUpon>
+    <Compile Include="Migrations\201404280141433_MP.cs" />
+    <Compile Include="Migrations\201404280141433_MP.Designer.cs">
+      <DependentUpon>201404280141433_MP.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="MPEntities.cs" />
@@ -88,8 +88,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201403180909523_MP.resx">
-      <DependentUpon>201403180909523_MP.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201404280141433_MP.resx">
+      <DependentUpon>201404280141433_MP.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
