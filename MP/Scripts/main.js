@@ -156,7 +156,7 @@ $(document).ready(function () {
         });
     });
     $('#passengerListModal').on('hide.bs.modal', function (e) {
-        $("#passengerGrid.k-grid tr td").css("font-size", "24px");
+        $("#passengerGrid.k-grid tr td").css("font-size", "36px");
         $("#passengerGrid.k-grid tr td").css("color", "black");
     });
     $("#selectTown").multiselect({
