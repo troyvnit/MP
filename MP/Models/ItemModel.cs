@@ -1,4 +1,6 @@
-﻿namespace MP.Models
+﻿using System;
+
+namespace MP.Models
 {
     public class ItemModel : TransportingObjectModel
     {
@@ -9,7 +11,7 @@
         public string ReceiverName { get; set; }
         public string ReceiverPhone { get; set; }
         public string DeliveryAddress { get; set; }
-        public string TripDepartureDate { get; set; }
+        public DateTime TripDepartureDate { get; set; }
         public string TripDepartureTime { get; set; }
     }
 }

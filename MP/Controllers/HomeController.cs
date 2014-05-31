@@ -85,6 +85,31 @@ namespace MP.Controllers
             return Json(passengers, JsonRequestBehavior.AllowGet);
         }
 
+        public ActionResult GetTripDepartureTime(TripName tripName)
+        {
+            var maList = new List<object>
+                 {
+                     new {Text = "3:00", Value = DepartureTime.C300.ToString()},
+                     new {Text = "5:30", Value = DepartureTime.C530.ToString()},
+                     new {Text = "7:00", Value = DepartureTime.C700.ToString()},
+                     new {Text = "9:00", Value = DepartureTime.C900.ToString()},
+                     new {Text = "11:30", Value = DepartureTime.C1130.ToString()},
+                     new {Text = "13:30", Value = DepartureTime.C1330.ToString()},
+                     new {Text = "15:00", Value = DepartureTime.C1500.ToString()}
+                 };
+            var sgList = new List<object>
+                 {
+                     new {Text = "7:00", Value = DepartureTime.C700.ToString()},
+                     new {Text = "8:30", Value = DepartureTime.C830.ToString()},
+                     new {Text = "10:30", Value = DepartureTime.C1030.ToString()},
+                     new {Text = "12:30", Value = DepartureTime.C1230.ToString()},
+                     new {Text = "14:00", Value = DepartureTime.C1400.ToString()},
+                     new {Text = "15:30", Value = DepartureTime.C1530.ToString()},
+                     new {Text = "17:00", Value = DepartureTime.C1700.ToString()}
+                 };
+            return Json(tripName == TripName.MA ? maList : sgList, JsonRequestBehavior.AllowGet);
+        }
+
         [HttpPost]
         public ActionResult AddOrUpdatePassenger(PassengerModel passengerModel, TripModel tripModel)
         {
@@ -123,10 +148,9 @@ namespace MP.Controllers
                 item.TripId = trip.Id;
                 itemService.AddOrUpdateItem(item);
                 itemModel.Id = item.Id;
-                itemModel.TripDepartureDate = item.Trip.DepartureDate.ToString("dd/MM/yyyy");
                 itemModel.TripDepartureTime = item.Trip.DepartureTime.ToString();
             }
-            return Json(items, JsonRequestBehavior.AllowGet);
+            return Json(new { data = items }, JsonRequestBehavior.AllowGet);
         }
 
         [HttpPost]

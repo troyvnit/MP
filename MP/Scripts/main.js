@@ -222,6 +222,10 @@ $(document).ready(function () {
     from.max(to.value());
     to.min(from.value());
     var itemDataSource = new kendo.data.DataSource({
+        sync: function () {
+            $("#itemGrid .k-update").bind("click");
+            $('#overlay').remove();
+        },
         transport: {
             read: {
                 url: "/Home/GetItem",
@@ -243,7 +247,7 @@ $(document).ready(function () {
                 if (operation !== "read" && options.models) {
                     return {
                         models: kendo.stringify(options.models),
-                        DepartureDate: options.models[0].TripDepartureDate == "" ? kendo.toString(datepicker.value(), "yyyy/MM/dd") : options.models[0].TripDepartureDate,
+                        DepartureDate: options.models[0].TripDepartureDate == "" ? kendo.toString(datepicker.value(), "yyyy/MM/dd") : kendo.toString(options.models[0].TripDepartureDate, "yyyy/MM/dd"),
                         DepartureTime: options.models[0].TripDepartureTime == "" ? $("#DepartureTime").val() : options.models[0].TripDepartureTime,
                         TripName: $("#TripName").val()
                     };
@@ -276,7 +280,7 @@ $(document).ready(function () {
                     ReceiverPhone: { type: "string" },
                     DeliveryAddress: { type: "string" },
                     Note: { type: "string" },
-                    TripDepartureDate: { type: "string" },
+                    TripDepartureDate: { type: "date", format: "dd/MM/yyyy" },
                     TripDepartureTime: { type: "string" }
                 }
             },
@@ -298,11 +302,16 @@ $(document).ready(function () {
         toolbar: [{ name: "create", text: "Thêm" }, { name: "save", text: "Lưu" }, { name: "cancel", text: "Hủy" }],
         edit: function(e) {
             if (e.model.isNew()) {
-                e.model.set("TripDepartureDate", kendo.toString(datepicker.value(), "dd/MM/yyyy"));
-                e.model.set("TripDepartureTime", $("#DepartureTime").val());
+                if (e.model.TripDepartureDate == "") {
+                    e.model.set("TripDepartureDate", kendo.toString(datepicker.value(), "dd/MM/yyyy"));
+                }
+                if (e.model.TripDepartureTime == "") {
+                    e.model.set("TripDepartureTime", $("#DepartureTime").val());
+                }
             }
         },
         columns: [
+            { field: "Id", title: "Id", width: 50, hidden: true },
             { field: "ItemCode", title: "Mã", width: 50 },
             { field: "Description", title: "Mô tả", width: 200 },
             { field: "ReceiverName", title: "Người nhận" },
@@ -312,16 +321,22 @@ $(document).ready(function () {
             { field: "DeliveryAddress", title: "Địa chỉ giao hàng", width: 200 },
             { field: "Note", title: "Ghi chú" },
             {
-                field: "TripDepartureDate",
-                title: "Ngày", width: 100
+                field: "TripDepartureDate", format: '{0:dd/MM/yyyy}',
+                title: "Ngày", width: 120
             },
             {
                 field: "TripDepartureTime",
-                title: "Chuyến", width: 70
+                editor: tripDepartureTimeDropDownEditor,
+                template: "#= getTripDepartureTimeName(TripDepartureTime) #",
+                title: "Chuyến", width: 80
             },
             { command: [{ name: "destroy", title: "&nbsp;", width: 70, text: "Xóa" }] }
         ],
-        editable: true
+        editable: true,
+        saveChanges: function (event) {
+            $("#itemGrid .k-update").unbind("click");
+            loading();
+        }
     });
     $("#fromTime").on('change', function () {
         $("#itemGrid").data("kendoGrid").dataSource.read();
@@ -362,6 +377,30 @@ $(document).ready(function () {
         }
     });
 });
+
+function tripDepartureTimeDropDownEditor(container, options) {
+    $('<input data-bind="value:' + options.field + '"/>')
+        .appendTo(container)
+        .kendoDropDownList({
+            dataTextField: "Text",
+            dataValueField: "Value",
+            optionLabel: "-Chọn-",
+            dataSource: {
+                transport: {
+                    read: {
+                        url: "/Home/GetTripDepartureTime?TripName=" + $("#TripName").val(),
+                        type: "post"
+                    }
+                }
+            }
+        });
+}
+
+function getTripDepartureTimeName(value) {
+    var removedCValue = value.substring(1);
+    return removedCValue.substring(0, removedCValue.length - 2) + ":" + removedCValue.substring(removedCValue.length - 2, removedCValue.length);
+}
+
 function printScreen() {
     html2canvas($("#printScreenContent"), {
         onrendered: function (canvas) {
@@ -408,3 +447,14 @@ function printScreenPassengerList() {
         }
     });
 }
+var loading = function () {
+    var over = '<div id="overlay">' +
+        '<img id="loading" src="/Content/Bootstrap/loading-image.gif">' +
+        '</div>';
+    $(over).appendTo('body');
+    $(document).keyup(function (e) {
+        if (e.which === 27) {
+            $('#overlay').remove();
+        }
+    });
+};
